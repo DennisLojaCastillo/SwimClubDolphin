@@ -52,7 +52,7 @@ public class UserInterface {
         System.out.println("Enter e-mail: ");
         String email = scanner.nextLine();
 
-        System.out.println("Enter Social security number: ");
+        System.out.println("Enter date of birth: ");
         int socialSecurityNumber = readInteger();
         scanner.nextLine();
 
