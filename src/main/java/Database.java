@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Database {
@@ -8,8 +9,8 @@ public class Database {
         members = m;
     }
 
-    public void addMember(String name, String email, int socialSecurityNumber, String address, int phoneNumber, boolean activityType, String membership) {
-        members.add(new Member(name, email, socialSecurityNumber, address, phoneNumber, activityType, membership));
+    public void addMember(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType, String membership) {
+        members.add(new Member(name, dateOfBirth, email, address, phoneNumber, activityType, membership));
     }
 
     public ArrayList<Member> getMembers() {

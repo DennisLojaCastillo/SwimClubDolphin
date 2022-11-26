@@ -1,10 +1,12 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
     //TODO Opret hovedmenu
-
     //TODO Menu til Formand, Træner og Kassere
+    //TODO Edit Metode = newDate virker ikke!!!!!
 
     private final Controller controller = new Controller();
     Scanner scanner = new Scanner(System.in);
@@ -47,17 +49,17 @@ public class UserInterface {
 
     public void addMember() {
         System.out.println("Enter name: ");
-        String name = scanner.nextLine();
-
-        System.out.println("Enter e-mail: ");
-        String email = scanner.nextLine();
+        String name = readString();
 
         System.out.println("Enter date of birth: ");
-        int socialSecurityNumber = readInteger();
-        scanner.nextLine();
+        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine(),formatDate);
+
+        System.out.println("Enter e-mail: ");
+        String email = readString();
 
         System.out.println("Enter address: ");
-        String address = scanner.nextLine();
+        String address = readString();
 
         System.out.println("Enter phone number: ");
         int phoneNumber = readInteger();
@@ -113,7 +115,7 @@ public class UserInterface {
             }
         }
 
-        controller.addMember(name, email, socialSecurityNumber, address, phoneNumber, activityType, selectedMembership);
+        controller.addMember(name, dateOfBirth, email, address, phoneNumber, activityType, selectedMembership);
 
         System.out.println("Member registered!");
 
@@ -153,34 +155,37 @@ public class UserInterface {
 
                 System.out.println("Current Name: " + editMember.getName());
                 System.out.println("Please enter the new NAME below");
-                String newName = scanner.nextLine();
+                String newName = readString();
                 if (!newName.isEmpty()) {
                     editMember.setName(newName);
                 }
                 System.out.println("Current Email: " + editMember.getEmail());
                 System.out.println("Please enter the new EMAIL name below");
-                String newEmail = scanner.nextLine();
+                String newEmail = readString();
                 if (!newEmail.isEmpty()) {
                     editMember.setEmail(newEmail);
                 }
 
-                System.out.println("Current Social Security Number: " + editMember.getSocialSecurityNumber());
-                System.out.println("Please enter the new Social Security Number below");
-                String newSNN = scanner.nextLine();
-                if (!newSNN.isEmpty()) {
-                    editMember.setSocialSecurityNumber(Integer.parseInt(newSNN));
+                //TODO This doesn't work!!!!
+                System.out.println("Current date of birth: " + editMember.getDateOfBirth());
+                System.out.println("Please enter the new date of birth below");
+                String newDate = readString();
+                if (!newDate.isEmpty()) {
+                    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyy");
+                    LocalDate newDateBirth = LocalDate.parse(newDate,format);
+                    editMember.setDateOfBirth(newDateBirth);
                 }
 
                 System.out.println("Current address " + editMember.getAddress());
                 System.out.println("Please enter the new address below");
-                String newAddress = scanner.nextLine();
+                String newAddress = readString();
                 if (!newAddress.isEmpty()) {
                     editMember.setAddress(newAddress);
                 }
 
                 System.out.println("Current Phone Number: " + editMember.getPhoneNumber());
                 System.out.println("Please enter the new phone number below");
-                String newPhoneNumber = scanner.nextLine();
+                String newPhoneNumber = readString();
                 if (!newPhoneNumber.isEmpty()) {
                     editMember.setPhoneNumber(Integer.parseInt(newPhoneNumber));
                 }
@@ -210,7 +215,7 @@ public class UserInterface {
 
                 System.out.println("Current Membership Type: " + editMember.getMembership());
                 System.out.println("Please enter the new membership below");
-                String newMemberShip = scanner.nextLine();
+                String newMemberShip = readString();
                 boolean legalMembership = false;
                 while (!legalMembership) {
                     System.out.println("""
@@ -270,5 +275,8 @@ public class UserInterface {
             System.out.println("Invalid value \"" + errorMsg + "\" Please try again");
         }
         return scanner.nextInt();
+    }
+    public String readString() {
+        return scanner.nextLine().toLowerCase();
     }
 }

@@ -1,20 +1,38 @@
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+
 public class Member {
     private String name;
+    private int age;
+    private LocalDate dateOfBirth;
     private String email;
-    private int socialSecurityNumber;
     private String address;
     private int phoneNumber;
     private boolean activityType;
     private String membership;
+    private String formatted;
 
-    public Member(String name, String email, int socialSecurityNumber, String address, int phoneNumber, boolean activityType, String membership) {
+    public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType, String membership) {
         this.name = name;
+        this.dateOfBirth = dateOfBirth;
         this.email = email;
-        this.socialSecurityNumber = socialSecurityNumber;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.activityType = activityType;
         this.membership = membership;
+        format();
+        ageCalculator();
+    }
+
+    public void format() {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        formatted = dateOfBirth.format(format);
+    }
+
+    public void ageCalculator() {
+        LocalDate today = LocalDate.now();
+        this.age = Period.between(dateOfBirth, today).getYears();
     }
 
     public String getName() {
@@ -25,20 +43,20 @@ public class Member {
         this.name = name;
     }
 
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getSocialSecurityNumber() {
-        return socialSecurityNumber;
-    }
-
-    public void setSocialSecurityNumber(int socialSecurityNumber) {
-        this.socialSecurityNumber = socialSecurityNumber;
     }
 
     public String getAddress() {
@@ -76,8 +94,9 @@ public class Member {
     @Override
     public String toString() {
         return "Name: " + name
+                + "\nDate of birth: " + formatted
+                + "\nAge: " + age
                 + "\nEmail: " + email
-                + "\nSocial Security Number: " + socialSecurityNumber
                 + "\nAddress: " + address
                 + "\nPhone Number: " + phoneNumber
                 + "\nActivity Type: " + (activityType ? "Aktiv" : "Passiv")
