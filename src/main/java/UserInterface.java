@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
-    //TODO Opret hovedmenu
-    //TODO Menu til Formand, Træner og Kassere
+    //TODO Tilføj attributter i competitor and exerciser klasser!
     //TODO Edit Metode = newDate virker ikke!!!!!
-    private Scanner scanner;
-    private Controller controller;
+
+    private final Scanner scanner;
+    private final Controller controller;
 
     public UserInterface() {
         scanner = new Scanner(System.in);
@@ -17,7 +17,7 @@ public class UserInterface {
     }
 
     public void startProgram() {
-        int menuChoice = 0;
+        int menuChoice;
         do {
             System.out.println("""
                     Dolphin Swim Club Administration
