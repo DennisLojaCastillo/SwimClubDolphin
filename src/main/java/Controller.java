@@ -11,8 +11,8 @@ public class Controller {
         database = new Database();
     }
 
-    public void addMember(String name, LocalDate dateOfBirth, String email , String address, int phoneNumber, boolean activityType, String membership) {
-        database.addMember(name, dateOfBirth, email, address, phoneNumber, activityType, membership);
+    public void addMember(String name, LocalDate dateOfBirth, String email , String address, int phoneNumber, boolean activityType) {
+        database.addMember(name, dateOfBirth, email, address, phoneNumber, activityType);
     }
 
     public ArrayList<Member> getMembers() {

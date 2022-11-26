@@ -9,8 +9,8 @@ public class Database {
         members = m;
     }
 
-    public void addMember(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType, String membership) {
-        members.add(new Member(name, dateOfBirth, email, address, phoneNumber, activityType, membership));
+    public void addMember(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType) {
+        members.add(new Member(name, dateOfBirth, email, address, phoneNumber, activityType));
     }
 
     public ArrayList<Member> getMembers() {

@@ -10,19 +10,20 @@ public class Member {
     private String address;
     private int phoneNumber;
     private boolean activityType;
-    private String membership;
+    private String membershipType;
+    private String membershipAgeType;
     private String formatted;
 
-    public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType, String membership) {
+    public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.activityType = activityType;
-        this.membership = membership;
         format();
         ageCalculator();
+        membershipAgeType();
     }
 
     public void format() {
@@ -34,6 +35,19 @@ public class Member {
         LocalDate today = LocalDate.now();
         this.age = Period.between(dateOfBirth, today).getYears();
     }
+
+    public void membershipAgeType() {
+        ageCalculator();
+        if (age < 18) {
+            this.membershipAgeType = "junior";
+        } else if (age > 60) {
+            this.membershipAgeType = "Senior";
+        } else {
+            this.membershipAgeType = "Adult";
+        }
+
+    }
+
 
     public String getName() {
         return name;
@@ -83,13 +97,14 @@ public class Member {
         this.activityType = activityType;
     }
 
-    public String getMembership() {
-        return membership;
+    public String getMembershipType(){
+        return membershipType;
     }
 
-    public void setMembership(String membership) {
-        this.membership = membership;
+    public void setMembershipType(String membershipType){
+        this.membershipType = membershipType;
     }
+
 
     @Override
     public String toString() {
@@ -100,6 +115,6 @@ public class Member {
                 + "\nAddress: " + address
                 + "\nPhone Number: " + phoneNumber
                 + "\nActivity Type: " + (activityType ? "Aktiv" : "Passiv")
-                + "\nMembership: " + membership + "\n";
+                + "\nMembership: " + membershipAgeType  + "\n";
     }
 }

@@ -45,6 +45,7 @@ public class UserInterface {
                     Choose menu item from 1-3
                     """);
         }
+
     }
 
 
@@ -124,35 +125,7 @@ public class UserInterface {
             }
         }
 
-
-        boolean legalMember = false;
-        String selectedMembership = "";
-        while (!legalMember) {
-            System.out.println("""
-                    Select membership type:
-                    1. Junior under 18 years - 1.000,-
-                    2. Adult 18+ - 1.600,-
-                    3. Senior 60+ - 1.200,- (25% Discount)
-                    """);
-            int memberType = readInteger();
-            switch (memberType) {
-                case 1 -> {
-                    selectedMembership = "Junior";
-                    legalMember = true;
-                }
-                case 2 -> {
-                    selectedMembership = "Adult";
-                    legalMember = true;
-                }
-                case 3 -> {
-                    selectedMembership = "Senior";
-                    legalMember = true;
-                }
-                default -> System.out.println("Activity not found! Try again.");
-            }
-        }
-
-        controller.addMember(name, dateOfBirth, email, address, phoneNumber, activityType, selectedMembership);
+        controller.addMember(name, dateOfBirth, email, address, phoneNumber, activityType);
 
         System.out.println("Member registered!");
 
@@ -250,35 +223,6 @@ public class UserInterface {
                         default -> System.out.println("Activity not found! Try again.");
                     }
                 }
-
-                System.out.println("Current Membership Type: " + editMember.getMembership());
-                System.out.println("Please enter the new membership below");
-                boolean legalMembership = false;
-                while (!legalMembership) {
-                    System.out.println("""
-                            Select membership type:
-                            1. Junior under 18 years - 1.000,- \s
-                            2. Adult 18+ - 1.600,-
-                            3. Senior 60+ - 1.200,- (25% Discount) \s
-                                """);
-                    int actType = readInteger();
-                    switch (actType) {
-                        case 1 -> {
-                            editMember.setMembership("Junior");
-                            legalMembership = true;
-                        }
-                        case 2 -> {
-                            editMember.setMembership("Adult");
-                            legalMembership = true;
-                        }
-                        case 3 -> {
-                            editMember.setMembership("Senior");
-                            legalMembership = true;
-                        }
-                        default -> System.out.println("Membership not found! Try again.");
-                    }
-                }
-
             }
         }
     }
@@ -296,7 +240,7 @@ public class UserInterface {
             int nr = readInteger();
 
             if (nr <= controller.getMembers().size()) {
-                controller.getMembers().remove(nr - 1);
+                controller.removeMember(nr);
                 System.out.println("\nMember deleted!\n");
             } else {
                 System.out.println("Error! - Please try again\n");
