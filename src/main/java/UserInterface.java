@@ -7,37 +7,76 @@ public class UserInterface {
     //TODO Opret hovedmenu
     //TODO Menu til Formand, Træner og Kassere
     //TODO Edit Metode = newDate virker ikke!!!!!
+    private Scanner scanner;
+    private Controller controller;
 
-    private final Controller controller = new Controller();
-    Scanner scanner = new Scanner(System.in);
+    public UserInterface() {
+        scanner = new Scanner(System.in);
+        controller = new Controller();
+        controller.loadMembers();
+    }
 
     public void startProgram() {
-        int userChoice = -1;
-        controller.loadMembers();
+        int menuChoice = 0;
+        do {
+            System.out.println("""
+                    Dolphin Swim Club Administration
+                    ------------------------------------
+                    1. Chairman Management
+                    2. Cashier Management
+                    3. Coach Management
+                    
+                    9. Close Programme
+                    """);
+            menuChoice = readInteger();
+            scanner.nextLine();
+            handlingMenuChoice(menuChoice);
+        } while (menuChoice != 9);
+    }
+
+    public void handlingMenuChoice(int menuChoice) {
+        switch (menuChoice) {
+            case 1 -> chairmanMenu();
+            case 2 -> System.out.println("Cashier Management Method here!");
+            case 3 -> System.out.println("Coach Management Method here!");
+            case 9 -> System.out.println("Closing programme...");
+            default -> System.out.println("""   
+                    Could not handle input. Please try again
+                    Choose menu item from 1-3
+                    """);
+        }
+    }
+
+
+    //----------------------------------------------------------------------------------------------------------------
+    // Chairman Menu
+    public void chairmanMenu() {
+        int userChoice;
         do {
             System.out.println("""
                      Delfin Swim Club
                      ------------------------------------
                     1. Add Member
-                    2. See Member(s) List
+                    2. See Members List
                     3. Edit Member
                     4. Remove Member
+                    
                     9. Exit
                      """);
             userChoice = readInteger();
             scanner.nextLine();
-            handlingUserChoice(userChoice);
+            handlingChairmanChoice(userChoice);
         } while (userChoice != 9);
     }
 
-    public void handlingUserChoice(int userChoice) {
+    public void handlingChairmanChoice(int userChoice) {
         switch (userChoice) {
             case 1 -> addMember();
             case 2 -> listMembers();
             case 3 -> editMember();
             case 4 -> deleteMember();
             case 9 -> {
-                System.out.println("Logging out...");
+                System.out.println("Logging out...\n");
                 controller.saveMembers();
             }
             default -> System.out.println("""   
@@ -79,10 +118,8 @@ public class UserInterface {
                     activityType = true;
                     legalActivity = true;
                 }
-                case 2 -> {
-                    activityType = false;
-                    legalActivity = true;
-                }
+                case 2 -> legalActivity = true;
+
                 default -> System.out.println("Activity not found! Try again.");
             }
         }
@@ -93,9 +130,9 @@ public class UserInterface {
         while (!legalMember) {
             System.out.println("""
                     Select membership type:
-                    1. Junior under 18 years - 1.000,-  
+                    1. Junior under 18 years - 1.000,-
                     2. Adult 18+ - 1.600,-
-                    3. Senior 60+ - 1.200,- (25% Discount)  
+                    3. Senior 60+ - 1.200,- (25% Discount)
                     """);
             int memberType = readInteger();
             switch (memberType) {
@@ -159,12 +196,6 @@ public class UserInterface {
                 if (!newName.isEmpty()) {
                     editMember.setName(newName);
                 }
-                System.out.println("Current Email: " + editMember.getEmail());
-                System.out.println("Please enter the new EMAIL name below");
-                String newEmail = readString();
-                if (!newEmail.isEmpty()) {
-                    editMember.setEmail(newEmail);
-                }
 
                 //TODO This doesn't work!!!!
                 System.out.println("Current date of birth: " + editMember.getDateOfBirth());
@@ -174,6 +205,13 @@ public class UserInterface {
                     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyy");
                     LocalDate newDateBirth = LocalDate.parse(newDate,format);
                     editMember.setDateOfBirth(newDateBirth);
+                }
+
+                System.out.println("Current Email: " + editMember.getEmail());
+                System.out.println("Please enter the new EMAIL name below");
+                String newEmail = readString();
+                if (!newEmail.isEmpty()) {
+                    editMember.setEmail(newEmail);
                 }
 
                 System.out.println("Current address " + editMember.getAddress());
@@ -215,7 +253,6 @@ public class UserInterface {
 
                 System.out.println("Current Membership Type: " + editMember.getMembership());
                 System.out.println("Please enter the new membership below");
-                String newMemberShip = readString();
                 boolean legalMembership = false;
                 while (!legalMembership) {
                     System.out.println("""
@@ -266,6 +303,22 @@ public class UserInterface {
             }
         }
     }
+
+
+    //----------------------------------------------------------------------------------------------------------------
+    // Cashier Menu
+
+
+
+
+
+
+    //----------------------------------------------------------------------------------------------------------------
+    // Coach Menu
+
+
+
+
 
     // ------------------------------------------------------------
     // SCANNER INPUT HANDLER
