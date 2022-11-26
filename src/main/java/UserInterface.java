@@ -254,7 +254,7 @@ public class UserInterface {
             int nr = readInteger();
 
             if (nr <= controller.getMembers().size()) {
-                controller.getMembers().remove(nr - 1);
+                controller.removeMember(nr);
                 System.out.println("\nMember deleted!\n");
             } else {
                 System.out.println("Error! - Please try again\n");
