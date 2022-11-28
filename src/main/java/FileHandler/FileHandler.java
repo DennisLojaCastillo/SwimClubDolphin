@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class FileHandler {
     public void saveMembers(ArrayList<Member> m) {
         try {
-            PrintStream saveToFile = new PrintStream("src/medlemmer.txt");
+            PrintStream saveToFile = new PrintStream("src/main/resources/medlemmer.txt");
             for (Member member : m) {
                 saveToFile.println(
                     member.getName() + "," +
@@ -32,7 +32,7 @@ public class FileHandler {
     public ArrayList<Member> loadMembers() {
         ArrayList<Member> memberList = new ArrayList<>();
         try {
-            Scanner sc = new Scanner(new File("src/medlemmer.txt"));
+            Scanner sc = new Scanner(new File("src/main/resources/medlemmer.txt"));
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] att = line.split(",");
