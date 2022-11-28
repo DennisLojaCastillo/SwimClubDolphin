@@ -1,3 +1,6 @@
+package Database;
+import MemberClass.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
