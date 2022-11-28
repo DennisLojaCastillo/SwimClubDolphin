@@ -5,6 +5,7 @@ import MemberClass.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class UserInterface {
 
     private final Scanner scanner;
     private final Controller controller;
+    LocalDate validDate = null;
 
     public UserInterface() {
         scanner = new Scanner(System.in);
@@ -97,8 +99,9 @@ public class UserInterface {
         String name = readString();
 
         System.out.println("Enter date of birth [Example: 01-01-2001]: ");
-        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine(),formatDate);
+        localeDateFailMsg(readString());
+        LocalDate dateOfBirth = validDate;
+
 
         System.out.println("Enter e-mail: ");
         String email = readString();
@@ -179,9 +182,8 @@ public class UserInterface {
                 System.out.println("Please enter the new date of birth below [Example: 01-01-2001]");
                 String newDate = readString();
                 if (!newDate.isEmpty()) {
-                    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyy");
-                    LocalDate newDateBirth = LocalDate.parse(newDate,format);
-                    editMember.setDateOfBirth(newDateBirth);
+                    localeDateFailMsg(newDate);
+                    editMember.setDateOfBirth(validDate);
                 }
 
                 System.out.println("Current Email: " + editMember.getEmail());
@@ -283,5 +285,22 @@ public class UserInterface {
 
     private void printNoMemberFoundMsg(){
         System.out.println("No member found!");
+    }
+
+    //TODO Work in progress
+    private String localeDateFailMsg(String dateInput) {
+        boolean correctDate = false;
+        while (!correctDate) {
+            try {
+                DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                validDate =  LocalDate.parse(dateInput, formatDate);
+                break;
+            } catch(DateTimeParseException ex) {
+                System.out.println("Invalid date entered!");
+                localeDateFailMsg(scanner.nextLine());
+                break;
+            }
+        }
+        return null;
     }
 }
