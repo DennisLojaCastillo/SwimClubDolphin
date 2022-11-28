@@ -171,6 +171,7 @@ public class UserInterface {
                 }
 
                 //TODO This doesn't work!!!!
+
                 System.out.println("Current date of birth: " + editMember.getDateOfBirth());
                 System.out.println("Please enter the new date of birth below");
                 String newDate = readString();

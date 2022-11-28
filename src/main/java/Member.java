@@ -4,7 +4,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Member {
     private String name;
-    private int age;
     private LocalDate dateOfBirth;
     private String email;
     private String address;
@@ -12,7 +11,6 @@ public class Member {
     private boolean activityType;
     private String membershipType;
     private String membershipAgeType;
-    private String formatted;
 
     public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType) {
         this.name = name;
@@ -21,23 +19,21 @@ public class Member {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.activityType = activityType;
-        format();
-        ageCalculator();
         membershipAgeType();
     }
 
-    public void format() {
+    public String format() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        formatted = dateOfBirth.format(format);
+        return dateOfBirth.format(format);
     }
 
-    public void ageCalculator() {
+    public int ageCalculator() {
         LocalDate today = LocalDate.now();
-        this.age = Period.between(dateOfBirth, today).getYears();
+        return Period.between(dateOfBirth, today).getYears();
     }
 
     public void membershipAgeType() {
-        ageCalculator();
+        int age = ageCalculator();
         if (age < 18) {
             this.membershipAgeType = "junior";
         } else if (age > 60) {
@@ -57,8 +53,8 @@ public class Member {
         this.name = name;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public String getDateOfBirth() {
+        return format();
     }
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
@@ -109,8 +105,8 @@ public class Member {
     @Override
     public String toString() {
         return "Name: " + name
-                + "\nDate of birth: " + formatted
-                + "\nAge: " + age
+                + "\nDate of birth: " + format()
+                + "\nAge: " + ageCalculator()
                 + "\nEmail: " + email
                 + "\nAddress: " + address
                 + "\nPhone Number: " + phoneNumber

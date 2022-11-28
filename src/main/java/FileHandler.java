@@ -12,13 +12,13 @@ public class FileHandler {
             PrintStream saveToFile = new PrintStream("src/medlemmer.txt");
             for (Member member : m) {
                 saveToFile.println(
-                                        member.getName() + "," +
-                                        member.getDateOfBirth() + "," +
-                                        member.getEmail() + "," +
-                                        member.getAddress() + "," +
-                                        member.getPhoneNumber() + "," +
-                                        member.getActivityType() +"," +
-                                        member.getMembershipType());
+                    member.getName() + "," +
+                    member.getDateOfBirth() + "," +
+                    member.getEmail() + "," +
+                    member.getAddress() + "," +
+                    member.getPhoneNumber() + "," +
+                    member.getActivityType() +"," +
+                    member.getMembershipType());
             }
         } catch(IOException e) {
             System.out.println("Fejl!");
