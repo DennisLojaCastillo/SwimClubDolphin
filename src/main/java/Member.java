@@ -1,21 +1,53 @@
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+
 public class Member {
     private String name;
+    private int age;
+    private LocalDate dateOfBirth;
     private String email;
-    private int socialSecurityNumber;
     private String address;
     private int phoneNumber;
     private boolean activityType;
-    private String membership;
+    private String membershipType;
+    private String membershipAgeType;
+    private String formatted;
 
-    public Member(String name, String email, int socialSecurityNumber, String address, int phoneNumber, boolean activityType, String membership) {
+    public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType) {
         this.name = name;
+        this.dateOfBirth = dateOfBirth;
         this.email = email;
-        this.socialSecurityNumber = socialSecurityNumber;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.activityType = activityType;
-        this.membership = membership;
+        format();
+        ageCalculator();
+        membershipAgeType();
     }
+
+    public void format() {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        formatted = dateOfBirth.format(format);
+    }
+
+    public void ageCalculator() {
+        LocalDate today = LocalDate.now();
+        this.age = Period.between(dateOfBirth, today).getYears();
+    }
+
+    public void membershipAgeType() {
+        ageCalculator();
+        if (age < 18) {
+            this.membershipAgeType = "junior";
+        } else if (age > 60) {
+            this.membershipAgeType = "Senior";
+        } else {
+            this.membershipAgeType = "Adult";
+        }
+
+    }
+
 
     public String getName() {
         return name;
@@ -25,20 +57,20 @@ public class Member {
         this.name = name;
     }
 
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getSocialSecurityNumber() {
-        return socialSecurityNumber;
-    }
-
-    public void setSocialSecurityNumber(int socialSecurityNumber) {
-        this.socialSecurityNumber = socialSecurityNumber;
     }
 
     public String getAddress() {
@@ -65,22 +97,24 @@ public class Member {
         this.activityType = activityType;
     }
 
-    public String getMembership() {
-        return membership;
+    public String getMembershipType(){
+        return membershipType;
     }
 
-    public void setMembership(String membership) {
-        this.membership = membership;
+    public void setMembershipType(String membershipType){
+        this.membershipType = membershipType;
     }
+
 
     @Override
     public String toString() {
         return "Name: " + name
+                + "\nDate of birth: " + formatted
+                + "\nAge: " + age
                 + "\nEmail: " + email
-                + "\nSocial Security Number: " + socialSecurityNumber
                 + "\nAddress: " + address
                 + "\nPhone Number: " + phoneNumber
                 + "\nActivity Type: " + (activityType ? "Aktiv" : "Passiv")
-                + "\nMembership: " + membership + "\n";
+                + "\nMembership: " + membershipAgeType  + "\n";
     }
 }

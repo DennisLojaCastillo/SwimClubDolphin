@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Database {
@@ -7,10 +8,10 @@ public class Database {
     public void addArrayMember(ArrayList<Member> m) {
         members = m;
     }
-    public void addMember(String name, String email, int socialSecurityNumber , String address, int phoneNumber, boolean activityType, String membership) {
-        members.add(new Member(name, email, socialSecurityNumber , address, phoneNumber, activityType, membership));
-    }
 
+    public void addMember(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType) {
+        members.add(new Member(name, dateOfBirth, email, address, phoneNumber, activityType));
+    }
 
     public ArrayList<Member> getMembers() {
         return members;
@@ -18,7 +19,7 @@ public class Database {
 
 
     public boolean removeMember(int nr) {
-        if (nr <= members.size()){
+        if (nr <= members.size()) {
             members.remove(nr - 1);
             return true;
         } else {

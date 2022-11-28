@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,7 +11,14 @@ public class FileHandler {
         try {
             PrintStream saveToFile = new PrintStream("src/medlemmer.txt");
             for (Member member : m) {
-                saveToFile.println(member.getName() + "," + member.getEmail() + "," + member.getSocialSecurityNumber() + "," + member.getAddress() + "," + member.getPhoneNumber() + "," + member.getActivityType() + "," + member.getMembership());
+                saveToFile.println(
+                                        member.getName() + "," +
+                                        member.getDateOfBirth() + "," +
+                                        member.getEmail() + "," +
+                                        member.getAddress() + "," +
+                                        member.getPhoneNumber() + "," +
+                                        member.getActivityType() +"," +
+                                        member.getMembershipType());
             }
         } catch(IOException e) {
             System.out.println("Fejl!");
@@ -25,19 +32,16 @@ public class FileHandler {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] att = line.split(",");
-                Member memberLoad = new Member(
-                        att[0],
-                        att[1],
-                        Integer.parseInt(att[2]),
+                Member memberLoad = new Member(att[0],
+                        LocalDate.parse(att[1]),
+                        att[2],
                         att[3],
                         Integer.parseInt(att[4]),
-                        Boolean.parseBoolean(att[5]),
-                        att[6]
-                        );
+                        Boolean.parseBoolean(att[5]));
                 memberList.add(memberLoad);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Fejl i læsning af fil");
+            System.out.println("Failed to read the file...");
         }
         return memberList;
     }

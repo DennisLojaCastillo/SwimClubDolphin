@@ -1,41 +1,83 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
-    //TODO Opret hovedmenu
+    //TODO Tilføj attributter i competitor and exerciser klasser!
+    //TODO Edit Metode = newDate virker ikke!!!!!
 
-    //TODO Menu til Formand, Træner og Kassere
+    private final Scanner scanner;
+    private final Controller controller;
 
-    private final Controller controller = new Controller();
-    Scanner scanner = new Scanner(System.in);
+    public UserInterface() {
+        scanner = new Scanner(System.in);
+        controller = new Controller();
+        controller.loadMembers();
+    }
 
     public void startProgram() {
-        int userChoice = -1;
-        controller.loadMembers();
+        int menuChoice;
+        do {
+            System.out.println("""
+                    Dolphin Swim Club Administration
+                    ------------------------------------
+                    1. Chairman Management
+                    2. Cashier Management
+                    3. Coach Management
+                    
+                    9. Close Programme
+                    """);
+            menuChoice = readInteger();
+            scanner.nextLine();
+            handlingMenuChoice(menuChoice);
+        } while (menuChoice != 9);
+    }
+
+    public void handlingMenuChoice(int menuChoice) {
+        switch (menuChoice) {
+            case 1 -> chairmanMenu();
+            case 2 -> System.out.println("Cashier Management Method here!");
+            case 3 -> System.out.println("Coach Management Method here!");
+            case 9 -> System.out.println("Closing programme...");
+            default -> System.out.println("""   
+                    Could not handle input. Please try again
+                    Choose menu item from 1-3
+                    """);
+        }
+
+    }
+
+
+    //----------------------------------------------------------------------------------------------------------------
+    // Chairman Menu
+    public void chairmanMenu() {
+        int userChoice;
         do {
             System.out.println("""
                      Delfin Swim Club
                      ------------------------------------
                     1. Add Member
-                    2. See Member(s) List
+                    2. See Members List
                     3. Edit Member
                     4. Remove Member
+                    
                     9. Exit
                      """);
             userChoice = readInteger();
             scanner.nextLine();
-            handlingUserChoice(userChoice);
+            handlingChairmanChoice(userChoice);
         } while (userChoice != 9);
     }
 
-    public void handlingUserChoice(int userChoice) {
+    public void handlingChairmanChoice(int userChoice) {
         switch (userChoice) {
             case 1 -> addMember();
             case 2 -> listMembers();
             case 3 -> editMember();
             case 4 -> deleteMember();
             case 9 -> {
-                System.out.println("Logging out...");
+                System.out.println("Logging out...\n");
                 controller.saveMembers();
             }
             default -> System.out.println("""   
@@ -47,17 +89,17 @@ public class UserInterface {
 
     public void addMember() {
         System.out.println("Enter name: ");
-        String name = scanner.nextLine();
+        String name = readString();
+
+        System.out.println("Enter date of birth: ");
+        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine(),formatDate);
 
         System.out.println("Enter e-mail: ");
-        String email = scanner.nextLine();
-
-        System.out.println("Enter Social security number: ");
-        int socialSecurityNumber = readInteger();
-        scanner.nextLine();
+        String email = readString();
 
         System.out.println("Enter address: ");
-        String address = scanner.nextLine();
+        String address = readString();
 
         System.out.println("Enter phone number: ");
         int phoneNumber = readInteger();
@@ -77,43 +119,13 @@ public class UserInterface {
                     activityType = true;
                     legalActivity = true;
                 }
-                case 2 -> {
-                    activityType = false;
-                    legalActivity = true;
-                }
+                case 2 -> legalActivity = true;
+
                 default -> System.out.println("Activity not found! Try again.");
             }
         }
 
-
-        boolean legalMember = false;
-        String selectedMembership = "";
-        while (!legalMember) {
-            System.out.println("""
-                    Select membership type:
-                    1. Junior under 18 years - 1.000,-  
-                    2. Adult 18+ - 1.600,-
-                    3. Senior 60+ - 1.200,- (25% Discount)  
-                    """);
-            int memberType = readInteger();
-            switch (memberType) {
-                case 1 -> {
-                    selectedMembership = "Junior";
-                    legalMember = true;
-                }
-                case 2 -> {
-                    selectedMembership = "Adult";
-                    legalMember = true;
-                }
-                case 3 -> {
-                    selectedMembership = "Senior";
-                    legalMember = true;
-                }
-                default -> System.out.println("Activity not found! Try again.");
-            }
-        }
-
-        controller.addMember(name, email, socialSecurityNumber, address, phoneNumber, activityType, selectedMembership);
+        controller.addMember(name, dateOfBirth, email, address, phoneNumber, activityType);
 
         System.out.println("Member registered!");
 
@@ -153,34 +165,38 @@ public class UserInterface {
 
                 System.out.println("Current Name: " + editMember.getName());
                 System.out.println("Please enter the new NAME below");
-                String newName = scanner.nextLine();
+                String newName = readString();
                 if (!newName.isEmpty()) {
                     editMember.setName(newName);
                 }
+
+                //TODO This doesn't work!!!!
+                System.out.println("Current date of birth: " + editMember.getDateOfBirth());
+                System.out.println("Please enter the new date of birth below");
+                String newDate = readString();
+                if (!newDate.isEmpty()) {
+                    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyy");
+                    LocalDate newDateBirth = LocalDate.parse(newDate,format);
+                    editMember.setDateOfBirth(newDateBirth);
+                }
+
                 System.out.println("Current Email: " + editMember.getEmail());
                 System.out.println("Please enter the new EMAIL name below");
-                String newEmail = scanner.nextLine();
+                String newEmail = readString();
                 if (!newEmail.isEmpty()) {
                     editMember.setEmail(newEmail);
                 }
 
-                System.out.println("Current Social Security Number: " + editMember.getSocialSecurityNumber());
-                System.out.println("Please enter the new Social Security Number below");
-                String newSNN = scanner.nextLine();
-                if (!newSNN.isEmpty()) {
-                    editMember.setSocialSecurityNumber(Integer.parseInt(newSNN));
-                }
-
                 System.out.println("Current address " + editMember.getAddress());
                 System.out.println("Please enter the new address below");
-                String newAddress = scanner.nextLine();
+                String newAddress = readString();
                 if (!newAddress.isEmpty()) {
                     editMember.setAddress(newAddress);
                 }
 
                 System.out.println("Current Phone Number: " + editMember.getPhoneNumber());
                 System.out.println("Please enter the new phone number below");
-                String newPhoneNumber = scanner.nextLine();
+                String newPhoneNumber = readString();
                 if (!newPhoneNumber.isEmpty()) {
                     editMember.setPhoneNumber(Integer.parseInt(newPhoneNumber));
                 }
@@ -207,36 +223,6 @@ public class UserInterface {
                         default -> System.out.println("Activity not found! Try again.");
                     }
                 }
-
-                System.out.println("Current Membership Type: " + editMember.getMembership());
-                System.out.println("Please enter the new membership below");
-                String newMemberShip = scanner.nextLine();
-                boolean legalMembership = false;
-                while (!legalMembership) {
-                    System.out.println("""
-                            Select membership type:
-                            1. Junior under 18 years - 1.000,- \s
-                            2. Adult 18+ - 1.600,-
-                            3. Senior 60+ - 1.200,- (25% Discount) \s
-                                """);
-                    int actType = readInteger();
-                    switch (actType) {
-                        case 1 -> {
-                            editMember.setMembership("Junior");
-                            legalMembership = true;
-                        }
-                        case 2 -> {
-                            editMember.setMembership("Adult");
-                            legalMembership = true;
-                        }
-                        case 3 -> {
-                            editMember.setMembership("Senior");
-                            legalMembership = true;
-                        }
-                        default -> System.out.println("Membership not found! Try again.");
-                    }
-                }
-
             }
         }
     }
@@ -262,6 +248,22 @@ public class UserInterface {
         }
     }
 
+
+    //----------------------------------------------------------------------------------------------------------------
+    // Cashier Menu
+
+
+
+
+
+
+    //----------------------------------------------------------------------------------------------------------------
+    // Coach Menu
+
+
+
+
+
     // ------------------------------------------------------------
     // SCANNER INPUT HANDLER
     public int readInteger() {
@@ -270,5 +272,8 @@ public class UserInterface {
             System.out.println("Invalid value \"" + errorMsg + "\" Please try again");
         }
         return scanner.nextInt();
+    }
+    public String readString() {
+        return scanner.nextLine().toLowerCase();
     }
 }
