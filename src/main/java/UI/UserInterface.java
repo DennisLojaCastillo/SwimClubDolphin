@@ -138,7 +138,7 @@ public class UserInterface {
 
     public void listMembers() {
         if (controller.getMembers().size() < 1) {
-            System.out.println("No members found.");
+            printNoMemberFoundMsg();
         } else {
             System.out.println("List of members");
             for (Member member : controller.getMembers()) {
@@ -150,7 +150,7 @@ public class UserInterface {
     public void editMember() {
         ArrayList<Member> memberList = controller.getMembers();
         if (memberList.size() < 1) {
-            System.out.println("No members found!");
+            printNoMemberFoundMsg();
         } else {
             System.out.println("Superhero List:");
 
@@ -279,5 +279,9 @@ public class UserInterface {
     }
     public String readString() {
         return scanner.nextLine().toLowerCase();
+    }
+
+    private void printNoMemberFoundMsg(){
+        System.out.println("No member found!");
     }
 }
