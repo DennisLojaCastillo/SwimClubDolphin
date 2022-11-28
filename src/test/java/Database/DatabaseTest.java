@@ -39,7 +39,7 @@ class DatabaseTest {
 
     @org.junit.jupiter.api.Test
     void removeMember3() {
-        database.removeMember(2);
+        database.removeMember(1);
         assertEquals(0, database.getMembers().size());
     }
 }
