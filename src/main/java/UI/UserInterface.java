@@ -96,7 +96,7 @@ public class UserInterface {
         System.out.println("Enter name: ");
         String name = readString();
 
-        System.out.println("Enter date of birth: ");
+        System.out.println("Enter date of birth [Example: 01-01-2001]: ");
         DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine(),formatDate);
 
@@ -175,10 +175,8 @@ public class UserInterface {
                     editMember.setName(newName);
                 }
 
-                //TODO This doesn't work!!!!
-
                 System.out.println("Current date of birth: " + editMember.getDateOfBirth());
-                System.out.println("Please enter the new date of birth below");
+                System.out.println("Please enter the new date of birth below [Example: 01-01-2001]");
                 String newDate = readString();
                 if (!newDate.isEmpty()) {
                     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyy");
