@@ -155,7 +155,7 @@ public class UserInterface {
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            System.out.println("Superhero List:");
+            System.out.println("Members List:");
 
             for (int i = 0; i < memberList.size(); i++) {
                 System.out.println("[" + (i + 1) + "] \n" + memberList.get(i));
