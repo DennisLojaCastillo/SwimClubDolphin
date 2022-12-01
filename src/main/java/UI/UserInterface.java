@@ -113,13 +113,34 @@ public class UserInterface {
         int phoneNumber = readInteger();
         scanner.nextLine();
 
-        boolean legalActivity = false;
-        boolean activityType = false;
-        while (!legalActivity) {
+        boolean legalMembershipType = false;
+        boolean memberType = false;
+        while (!legalMembershipType) {
             System.out.println("""
-                    Select activity:
+                    Select Member Type:
                     1. Active
                     2. Passive
+                    """);
+            int memType = readInteger();
+            switch (memType) {
+                case 1 -> {
+                    memberType = true;
+                    legalMembershipType = true;
+                }
+                case 2 -> legalMembershipType = true;
+
+                default -> System.out.println("Member Type not found! Try again.");
+            }
+        }
+
+        boolean legalActivity = false;
+        boolean activityType = false;
+
+        while (!legalActivity) {
+            System.out.println("""
+                    Select Activity:
+                    1. Competitor
+                    2. Motionist
                     """);
             int actType = readInteger();
             switch (actType) {
@@ -129,11 +150,11 @@ public class UserInterface {
                 }
                 case 2 -> legalActivity = true;
 
-                default -> System.out.println("Activity not found! Try again.");
+                default -> System.out.println("Activity nit found! Try again.");
             }
         }
 
-        controller.addMember(name, dateOfBirth, email, address, phoneNumber, activityType);
+        controller.addMember(name, dateOfBirth, email, address, phoneNumber, memberType, activityType);
 
         System.out.println("Member registered!");
 
@@ -207,7 +228,7 @@ public class UserInterface {
                     editMember.setPhoneNumber(Integer.parseInt(newPhoneNumber));
                 }
 
-                System.out.println("Current Activity Type: " + editMember.getActivityType());
+                System.out.println("Current Activity Type: " + editMember.getMemberType());
                 System.out.println("Please enter the new activity below");
                 boolean legalActivity = false;
                 while (!legalActivity) {
@@ -219,11 +240,11 @@ public class UserInterface {
                     int actType = readInteger();
                     switch (actType) {
                         case 1 -> {
-                            editMember.setActivityType(true);
+                            editMember.setMemberType(true);
                             legalActivity = true;
                         }
                         case 2 -> {
-                            editMember.setActivityType(false);
+                            editMember.setMemberType(false);
                             legalActivity = true;
                         }
                         default -> System.out.println("Activity not found! Try again.");

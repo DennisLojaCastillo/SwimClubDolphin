@@ -10,21 +10,24 @@ public class Member {
     private String email;
     private String address;
     private int phoneNumber;
+    private boolean memberType;
     private boolean activityType;
-    private String membershipType;
     private String membershipAgeType;
+    private int membershipAnnualPayment;
     private String formatted;
 
-    public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean activityType) {
+    public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.memberType = memberType;
         this.activityType = activityType;
         format();
         ageCalculator();
         membershipAgeType();
+        membershipFee();
     }
 
     public void format() {
@@ -45,6 +48,19 @@ public class Member {
             this.membershipAgeType = "Senior";
         } else {
             this.membershipAgeType = "Adult";
+        }
+    }
+
+    public void membershipFee() {
+
+        if (!memberType) {
+            membershipAnnualPayment = 500;
+        } else if (membershipAgeType == "Junior") {
+            membershipAnnualPayment = 1000;
+        } else if (membershipAgeType == "Adult") {
+            membershipAnnualPayment = 1600;
+        } else if (membershipAgeType == "Senior") {
+            membershipAnnualPayment = 1200;
         }
     }
 
@@ -91,7 +107,15 @@ public class Member {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean getActivityType() {
+    public boolean getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(boolean memberType) {
+        this.memberType = memberType;
+    }
+
+    public boolean isActivityType() {
         return activityType;
     }
 
@@ -103,8 +127,7 @@ public class Member {
         return membershipAgeType;
     }
 
-    public void setMembershipType(String membershipType){
-        this.membershipType = membershipType;
+    public void setMembershipType(String membershipType) {
     }
 
     @Override
@@ -115,7 +138,9 @@ public class Member {
                 + "\nEmail: " + email
                 + "\nAddress: " + address
                 + "\nPhone Number: " + phoneNumber
-                + "\nActivity Type: " + (activityType ? "Aktiv" : "Passiv")
-                + "\nMembership: " + membershipAgeType  + "\n";
+                + "\nMember Type: " + (memberType ? "Active" : "Passive")
+                + "\nActivity Type: " + (activityType ? "Competitor" : "Motionist")
+                + "\nMembership: " + membershipAgeType
+                + "\nAnnual Payment Fee: " + membershipAnnualPayment + " kr\n";
     }
 }

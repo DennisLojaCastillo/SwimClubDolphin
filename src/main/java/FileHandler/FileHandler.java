@@ -16,13 +16,14 @@ public class FileHandler {
             PrintStream saveToFile = new PrintStream("src/main/resources/medlemmer.txt");
             for (Member member : m) {
                 saveToFile.println(
-                    member.getName() + "," +
-                    member.getDateOfBirth() + "," +
-                    member.getEmail() + "," +
-                    member.getAddress() + "," +
-                    member.getPhoneNumber() + "," +
-                    member.getActivityType() +"," +
-                    member.getMembershipType());
+                            member.getName() + "," +
+                            member.getDateOfBirth() + "," +
+                            member.getEmail() + "," +
+                            member.getAddress() + "," +
+                            member.getPhoneNumber() + "," +
+                            member.getMemberType() + "," +
+                            member.getMembershipType() + "," +
+                            member.isActivityType());
             }
         } catch(IOException e) {
             System.out.println("Fejl!");
@@ -41,7 +42,8 @@ public class FileHandler {
                         att[2],
                         att[3],
                         Integer.parseInt(att[4]),
-                        Boolean.parseBoolean(att[5]));
+                        Boolean.parseBoolean(att[5]),
+                        Boolean.parseBoolean(att[6]));
                 memberList.add(memberLoad);
             }
         } catch (FileNotFoundException e) {
