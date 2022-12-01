@@ -379,7 +379,7 @@ public class UserInterface {
                         }
                         case 2 -> {
                             editMember.setHasPaid(false);
-                            legalPayment = false;
+                            legalPayment = true;
                         }
                         default -> System.out.println("Payment option is not found! Try again.");
                     }
