@@ -1,5 +1,4 @@
 package MemberClass;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -41,15 +40,13 @@ public class Member {
     public void membershipAgeType() {
         ageCalculator();
         if (age < 18) {
-            this.membershipAgeType = "junior";
+            this.membershipAgeType = "Junior";
         } else if (age > 60) {
             this.membershipAgeType = "Senior";
         } else {
             this.membershipAgeType = "Adult";
         }
-
     }
-
 
     public String getName() {
         return name;
@@ -103,13 +100,12 @@ public class Member {
     }
 
     public String getMembershipType(){
-        return membershipType;
+        return membershipAgeType;
     }
 
     public void setMembershipType(String membershipType){
         this.membershipType = membershipType;
     }
-
 
     @Override
     public String toString() {
