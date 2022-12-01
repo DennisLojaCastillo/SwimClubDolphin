@@ -156,7 +156,7 @@ public class UserInterface {
             }
         }
 
-        controller.addMember(name, dateOfBirth, email, address, phoneNumber, memberType, activityType);
+        controller.addMember(name, dateOfBirth, email, address, phoneNumber, memberType, activityType, false);
 
         System.out.println("Member registered!");
 
@@ -308,7 +308,7 @@ public class UserInterface {
     public void handlingCashierChoice(int userChoice) {
         switch (userChoice) {
             case 1 -> listMembers();
-            //case 2 -> editMemberPayment();
+            case 2 -> editMemberPayment();
             //case 3 -> listMembersRestance();
             case 9 -> {
                 System.out.println("Going back\n");
@@ -317,6 +317,74 @@ public class UserInterface {
                     Could not handle input. Please try again
                     Choose menu item from 1-3
                     """);
+        }
+    }
+
+    public void editMemberPayment () {
+        ArrayList<Member> memberList = controller.getMembers();
+        if (memberList.size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            System.out.println("Members List:");
+
+            for (int i = 0; i < memberList.size(); i++) {
+                System.out.println("[" + (i + 1) + "] \n" + memberList.get(i));
+            }
+            System.out.println("Enter a number to edit the members information:");
+            int num = readInteger();
+            Member editMember;
+            scanner.nextLine();
+            if (num - 1 >= controller.getMembers().size()) {
+                System.out.println("Member ID not found!");
+            } else {
+                editMember = memberList.get(num - 1);
+                System.out.println("You are editing " + editMember.getName());
+
+                System.out.println("Current Activity Type: " + editMember.getMemberType());
+                System.out.println("Please enter the new activity below");
+                boolean legalActivity = false;
+                while (!legalActivity) {
+                    System.out.println("""
+                            Select activity:
+                            1. Active
+                            2. Passive
+                            """);
+                    int actType = readInteger();
+                    switch (actType) {
+                        case 1 -> {
+                            editMember.setMemberType(true);
+                            legalActivity = true;
+                        }
+                        case 2 -> {
+                            editMember.setMemberType(false);
+                            legalActivity = true;
+                        }
+                        default -> System.out.println("Activity not found! Try again.");
+                    }
+                }
+                System.out.println("Current payment status" + editMember.getHasPaid());
+                System.out.println("Please enter the new payment status below");
+                boolean legalPayment = false;
+                while (!legalPayment){
+                    System.out.println("""
+                            Select Payment Status:
+                            1. Member has Paid
+                            2. Member has not Paid
+                            """);
+                    int actType = readInteger();
+                    switch (actType) {
+                        case 1 -> {
+                            editMember.setHasPaid(true);
+                            legalPayment = true;
+                        }
+                        case 2 -> {
+                            editMember.setHasPaid(false);
+                            legalPayment = false;
+                        }
+                        default -> System.out.println("Payment option is not found! Try again.");
+                    }
+                }
+            }
         }
     }
 

@@ -23,7 +23,8 @@ public class FileHandler {
                             member.getPhoneNumber() + "," +
                             member.getMemberType() + "," +
                             member.getMembershipType() + "," +
-                            member.isActivityType());
+                            member.isActivityType() + "," +
+                            member.getHasPaid());
             }
         } catch(IOException e) {
             System.out.println("Fejl!");
@@ -43,7 +44,9 @@ public class FileHandler {
                         att[3],
                         Integer.parseInt(att[4]),
                         Boolean.parseBoolean(att[5]),
-                        Boolean.parseBoolean(att[6]));
+                        Boolean.parseBoolean(att[6]),
+                        Boolean.parseBoolean(att[7]));
+
                 memberList.add(memberLoad);
             }
         } catch (FileNotFoundException e) {

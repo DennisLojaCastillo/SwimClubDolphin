@@ -12,8 +12,8 @@ public class Database {
         members = m;
     }
 
-    public void addMember(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType) {
-        members.add(new Member(name, dateOfBirth, email, address, phoneNumber, memberType, activityType));
+    public void addMember(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType, boolean hasPaid) {
+        members.add(new Member(name, dateOfBirth, email, address, phoneNumber, memberType, activityType, hasPaid));
     }
 
     public ArrayList<Member> getMembers() {

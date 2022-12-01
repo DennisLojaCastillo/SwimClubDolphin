@@ -24,7 +24,7 @@ class DatabaseTest {
     @org.junit.jupiter.api.Test
     void removeMember() {
         database.addMember(" Amir", LocalDate.parse("01-01-2001", formatDate), "Amir2700@hotmail.com", "chupapi 21", 9999,
-                true, true);
+                true, true, false);
         database.removeMember(1);
         assertEquals(0, database.getMembers().size());
     }
@@ -32,7 +32,7 @@ class DatabaseTest {
     @org.junit.jupiter.api.Test
     void removeMember2() {
         database.addMember(" Amir", LocalDate.parse("01-01-2001", formatDate), "Amir2700@hotmail.com", "chupapi 21", 9999,
-                true, true);
+                true, true, false);
         database.removeMember(2);
         assertEquals(1, database.getMembers().size());
     }

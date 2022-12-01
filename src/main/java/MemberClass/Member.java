@@ -15,8 +15,9 @@ public class Member {
     private String membershipAgeType;
     private int membershipAnnualPayment;
     private String formatted;
+    private boolean hasPaid;
 
-    public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType) {
+    public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType, boolean hasPaid) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
@@ -24,6 +25,7 @@ public class Member {
         this.phoneNumber = phoneNumber;
         this.memberType = memberType;
         this.activityType = activityType;
+        this.hasPaid = hasPaid;
         format();
         ageCalculator();
         membershipAgeType();
@@ -129,6 +131,12 @@ public class Member {
 
     public String getMembershipType(){
         return membershipAgeType;
+    }
+    public boolean getHasPaid() {
+        return hasPaid;
+    }
+    public void setHasPaid(boolean hasPaid){
+        this.hasPaid = hasPaid;
     }
 
     public void setMembershipType(String membershipType) {
