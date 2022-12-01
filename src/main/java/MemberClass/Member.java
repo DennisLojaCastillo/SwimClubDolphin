@@ -68,6 +68,10 @@ public class Member {
         return name;
     }
 
+    public int getMembershipAnnualPayment(){
+        return membershipAnnualPayment;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

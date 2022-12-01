@@ -7,4 +7,4 @@ mathias,2000-01-01,mathias@gmail.com,address,12345678,true,Adult,false
 jesper,1950-01-01,jesper@gmail.com,address,12345678,true,Senior,false
 emma,1950-01-01,emma@gmail.com,address,12345678,true,Senior,false
 bo,1950-01-01,bo@gmail.com,address,12345678,true,Senior,false
-svend yun,2010-01-01,svend@mail.dk,asdasdd 12,21313123,false,Junior,true
+svend yun,2010-01-01,svend@mail.dk,asdasdd 12,21313123,false,Junior,false

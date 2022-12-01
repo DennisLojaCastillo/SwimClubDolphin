@@ -44,9 +44,12 @@ public class UserInterface {
     public void handlingMenuChoice(int menuChoice) {
         switch (menuChoice) {
             case 1 -> chairmanMenu();
-            case 2 -> System.out.println("Cashier Management Method here!");
+            case 2 -> cashierMenu();
             case 3 -> System.out.println("Coach Management Method here!");
-            case 9 -> System.out.println("Closing programme...");
+            case 9 -> {
+                System.out.println("Closing programme...");
+                controller.saveMembers();
+            }
             default -> System.out.println("""   
                     Could not handle input. Please try again
                     Choose menu item from 1-3
@@ -62,14 +65,14 @@ public class UserInterface {
         int userChoice;
         do {
             System.out.println("""
-                     Delfin Swim Club
+                    Logged in as Chairman
                      ------------------------------------
                     1. Add Member
                     2. See Members List
                     3. Edit Member
                     4. Remove Member
                     
-                    9. Exit
+                    9. Go back
                      """);
             userChoice = readInteger();
             scanner.nextLine();
@@ -84,8 +87,7 @@ public class UserInterface {
             case 3 -> editMember();
             case 4 -> deleteMember();
             case 9 -> {
-                System.out.println("Logging out...\n");
-                controller.saveMembers();
+                System.out.println("Going back\n");
             }
             default -> System.out.println("""   
                     Could not handle input. Please try again
@@ -164,10 +166,15 @@ public class UserInterface {
         if (controller.getMembers().size() < 1) {
             printNoMemberFoundMsg();
         } else {
+            int totalProfit = 0;
             System.out.println("List of members");
             for (Member member : controller.getMembers()) {
                 System.out.println(member);
+                totalProfit += member.getMembershipAnnualPayment();
             }
+
+
+            System.out.println("Total profit: " + totalProfit + "kr.");
         }
     }
 
@@ -279,10 +286,39 @@ public class UserInterface {
     //----------------------------------------------------------------------------------------------------------------
     // Cashier Menu
 
+    public void cashierMenu() {
+        int userChoice;
+        do {
+            System.out.println("""
+                    Logged in as cashier
+                     ------------------------------------
+                    1. View Members List
+                    2. Edit Member Payments
+                    3. View Members in restance
+                    4. View Total gross profit
+                    
+                    9. Go back
+                     """);
+            userChoice = readInteger();
+            scanner.nextLine();
+            handlingCashierChoice(userChoice);
+        } while (userChoice != 9);
+    }
 
-
-
-
+    public void handlingCashierChoice(int userChoice) {
+        switch (userChoice) {
+            case 1 -> listMembers();
+            //case 2 -> editMemberPayment();
+            //case 3 -> listMembersRestance();
+            case 9 -> {
+                System.out.println("Going back\n");
+            }
+            default -> System.out.println("""   
+                    Could not handle input. Please try again
+                    Choose menu item from 1-3
+                    """);
+        }
+    }
 
     //----------------------------------------------------------------------------------------------------------------
     // Coach Menu
