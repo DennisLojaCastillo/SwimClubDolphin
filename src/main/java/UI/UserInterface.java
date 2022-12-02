@@ -380,21 +380,23 @@ public class UserInterface {
         }
     }
 
-        public void listMembersRestance() {
+    public void listMembersRestance() {
         if (controller.getMembers().size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            int totalMissingProfit = 0;
+            ArrayList<Member> restanceMembers = controller.getMembersRestance();
             System.out.println("List of members");
-            for (Member member : controller.getMembers()) {
-                if(!member.getHasPaid()) {
-                    System.out.println(member);
-                    totalMissingProfit += member.getMembershipAnnualPayment();
-                }
+            for (Member member : restanceMembers) {
+                System.out.println(member);
             }
+            int totalMissingProfit = controller.getMissingProfit();
+
             System.out.println("Total missing profit: " + totalMissingProfit + "kr.");
         }
     }
+
+
+
 
     //----------------------------------------------------------------------------------------------------------------
     // Coach Menu

@@ -29,6 +29,18 @@ public class Controller {
         fileHandler.saveMembers(database.getMembers());
     }
 
+    public ArrayList<Member> getMembersRestance() {
+        return database.getMembersRestance();
+    }
+
+    public int getMissingProfit(){
+        int profitMissing = 0;
+        for (Member member : getMembersRestance()) {
+            profitMissing += member.getMembershipAnnualPayment();
+        }
+        return profitMissing;
+    }
+
     public void removeMember(int nr) {
         database.removeMember(nr);
     }

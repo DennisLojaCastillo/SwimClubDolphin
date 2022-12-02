@@ -20,6 +20,16 @@ public class Database {
         return members;
     }
 
+    public ArrayList<Member> getMembersRestance() {
+        ArrayList<Member> restanceMembers = new ArrayList<>();
+        for (Member member : members) {
+            if (!member.getHasPaid()) {
+                restanceMembers.add(member);
+            }
+        }
+        return restanceMembers;
+    }
+
     public boolean removeMember(int nr) {
         if (nr <= members.size()) {
             members.remove(nr - 1);
