@@ -20,7 +20,6 @@ public class Database {
         return members;
     }
 
-
     public boolean removeMember(int nr) {
         if (nr <= members.size()) {
             members.remove(nr - 1);

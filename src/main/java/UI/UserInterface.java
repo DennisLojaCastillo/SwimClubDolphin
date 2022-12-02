@@ -102,7 +102,6 @@ public class UserInterface {
         localeDateFailMsg(readString());
         LocalDate dateOfBirth = validDate;
 
-
         System.out.println("Enter e-mail: ");
         String email = readString();
 
@@ -150,7 +149,7 @@ public class UserInterface {
                 }
                 case 2 -> legalActivity = true;
 
-                default -> System.out.println("Activity nit found! Try again.");
+                default -> System.out.println("Activity not found! Try again.");
             }
         }
 
@@ -170,8 +169,6 @@ public class UserInterface {
                 System.out.println(member);
                 totalProfit += member.getMembershipAnnualPayment();
             }
-
-
             System.out.println("Total profit: " + totalProfit + "kr.");
         }
     }
@@ -280,7 +277,6 @@ public class UserInterface {
         }
     }
 
-
     //----------------------------------------------------------------------------------------------------------------
     // Cashier Menu
 
@@ -335,7 +331,7 @@ public class UserInterface {
                 editMember = memberList.get(num - 1);
                 System.out.println("You are editing " + editMember.getName());
 
-                System.out.println("Current Activity Type: " + editMember.getMemberType());
+                System.out.println("Current Activity Type: " + (editMember.getMemberType() ? "Active" : "Passive"));
                 System.out.println("Please enter the new activity below");
                 boolean legalActivity = false;
                 while (!legalActivity) {
@@ -357,7 +353,8 @@ public class UserInterface {
                         default -> System.out.println("Activity not found! Try again.");
                     }
                 }
-                System.out.println("Current payment status" + editMember.getHasPaid());
+
+                System.out.println("Current payment status: " + (editMember.getHasPaid() ? "Paid" : "Not Paid"));
                 System.out.println("Please enter the new payment status below");
                 boolean legalPayment = false;
                 while (!legalPayment){

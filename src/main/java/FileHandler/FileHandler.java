@@ -45,8 +45,8 @@ public class FileHandler {
                         Integer.parseInt(att[4]),
                         Boolean.parseBoolean(att[5]),
                         Boolean.parseBoolean(att[6]),
-                        Boolean.parseBoolean(att[7]));
-
+                        Boolean.parseBoolean(att[7])
+                );
                 memberList.add(memberLoad);
             }
         } catch (FileNotFoundException e) {
