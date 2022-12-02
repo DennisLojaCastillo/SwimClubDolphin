@@ -2,8 +2,10 @@ package MemberClass;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 public class Member {
+    private String memberID;
     private String name;
     private int age;
     private LocalDate dateOfBirth;
@@ -18,6 +20,7 @@ public class Member {
     private boolean hasPaid;
 
     public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType, boolean hasPaid) {
+        this.memberID = createID();
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
@@ -30,6 +33,29 @@ public class Member {
         ageCalculator();
         membershipAgeType();
         membershipFee();
+    }
+
+    public Member(String memberID, String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType, boolean hasPaid) {
+        this.memberID = memberID;
+        this.name = name;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.memberType = memberType;
+        this.activityType = activityType;
+        this.hasPaid = hasPaid;
+        format();
+        ageCalculator();
+        membershipAgeType();
+        membershipFee();
+    }
+
+    private String createID(){
+        var full = UUID.randomUUID();
+        var fullAsString = full.toString();
+        var firstFourCharacters = fullAsString.substring(0,4);
+        return firstFourCharacters;
     }
 
     public void format() {
@@ -64,6 +90,10 @@ public class Member {
         } else if (membershipAgeType.equals("Senior")) {
             membershipAnnualPayment = 1200;
         }
+    }
+
+    public String getMemberID() {
+        return memberID;
     }
 
     public String getName() {
@@ -134,7 +164,8 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Name: " + name
+        return  "Member ID: " + memberID
+                + "\nName: " + name
                 + "\nDate of birth: " + formatted
                 + "\nAge: " + age
                 + "\nEmail: " + email

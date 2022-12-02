@@ -16,6 +16,7 @@ public class FileHandler {
             PrintStream saveToFile = new PrintStream("src/main/resources/medlemmer.txt");
             for (Member member : m) {
                 saveToFile.println(
+                            member.getMemberID() + "," +
                             member.getName() + "," +
                             member.getDateOfBirth() + "," +
                             member.getEmail() + "," +
@@ -37,16 +38,15 @@ public class FileHandler {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] att = line.split(",");
-                Member memberLoad = new
-                        Member(att[0],
-                        LocalDate.parse(att[1]),
-                        att[2],
+                Member memberLoad = new Member(att[0],
+                        att[1],
+                        LocalDate.parse(att[2]),
                         att[3],
-                        Integer.parseInt(att[4]),
-                        Boolean.parseBoolean(att[5]),
+                        att[4],
+                        Integer.parseInt(att[5]),
                         Boolean.parseBoolean(att[6]),
-                        Boolean.parseBoolean(att[7])
-                );
+                        Boolean.parseBoolean(att[7]),
+                        Boolean.parseBoolean(att[8]));
                 memberList.add(memberLoad);
             }
         } catch (FileNotFoundException e) {
