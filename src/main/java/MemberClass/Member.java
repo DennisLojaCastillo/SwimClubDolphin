@@ -11,7 +11,7 @@ public class Member {
     private String address;
     private int phoneNumber;
     private boolean memberType;
-    private boolean activityType;
+    private final boolean activityType;
     private String membershipAgeType;
     private int membershipAnnualPayment;
     private String formatted;
@@ -57,11 +57,11 @@ public class Member {
 
         if (!memberType) {
             membershipAnnualPayment = 500;
-        } else if (membershipAgeType == "Junior") {
+        } else if (membershipAgeType.equals("Junior")) {
             membershipAnnualPayment = 1000;
-        } else if (membershipAgeType == "Adult") {
+        } else if (membershipAgeType.equals("Adult")) {
             membershipAnnualPayment = 1600;
-        } else if (membershipAgeType == "Senior") {
+        } else if (membershipAgeType.equals("Senior")) {
             membershipAnnualPayment = 1200;
         }
     }
@@ -125,21 +125,11 @@ public class Member {
         return activityType;
     }
 
-    public void setActivityType(boolean activityType) {
-        this.activityType = activityType;
-    }
-
-    public String getMembershipType(){
-        return membershipAgeType;
-    }
     public boolean getHasPaid() {
         return hasPaid;
     }
     public void setHasPaid(boolean hasPaid){
         this.hasPaid = hasPaid;
-    }
-
-    public void setMembershipType(String membershipType) {
     }
 
     @Override

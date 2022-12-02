@@ -86,9 +86,7 @@ public class UserInterface {
             case 2 -> listMembers();
             case 3 -> editMember();
             case 4 -> deleteMember();
-            case 9 -> {
-                System.out.println("Going back\n");
-            }
+            case 9 -> System.out.println("Going back\n");
             default -> System.out.println("""   
                     Could not handle input. Please try again
                     Choose menu item from 1-4
@@ -183,7 +181,7 @@ public class UserInterface {
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            System.out.println("Members List:");
+            System.out.println("> Members List:");
 
             for (int i = 0; i < memberList.size(); i++) {
                 System.out.println("[" + (i + 1) + "] \n" + memberList.get(i));
@@ -295,8 +293,7 @@ public class UserInterface {
                     1. View Members List
                     2. Edit Member Payments
                     3. View Members in restance
-                    4. View Total gross profit
-                    
+                                        
                     9. Go back
                      """);
             userChoice = readInteger();
@@ -309,10 +306,8 @@ public class UserInterface {
         switch (userChoice) {
             case 1 -> listMembers();
             case 2 -> editMemberPayment();
-            //case 3 -> listMembersRestance();
-            case 9 -> {
-                System.out.println("Going back\n");
-            }
+            case 3 -> listMembersRestance();
+            case 9 -> System.out.println("Going back\n");
             default -> System.out.println("""   
                     Could not handle input. Please try again
                     Choose menu item from 1-3
@@ -388,6 +383,22 @@ public class UserInterface {
         }
     }
 
+        public void listMembersRestance() {
+        if (controller.getMembers().size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            int totalMissingProfit = 0;
+            System.out.println("List of members");
+            for (Member member : controller.getMembers()) {
+                if(!member.getHasPaid()) {
+                    System.out.println(member);
+                    totalMissingProfit += member.getMembershipAnnualPayment();
+                }
+            }
+            System.out.println("Total missing profit: " + totalMissingProfit + "kr.");
+        }
+    }
+
     //----------------------------------------------------------------------------------------------------------------
     // Coach Menu
 
@@ -413,19 +424,13 @@ public class UserInterface {
     }
 
     //TODO Work in progress
-    private String localeDateFailMsg(String dateInput) {
-        boolean correctDate = false;
-        while (!correctDate) {
+    private void localeDateFailMsg(String dateInput) {
             try {
                 DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 validDate =  LocalDate.parse(dateInput, formatDate);
-                break;
             } catch(DateTimeParseException ex) {
-                System.out.println("Invalid date entered!");
+                System.out.println("Invalid date entered! Please try again.");
                 localeDateFailMsg(scanner.nextLine());
-                break;
             }
-        }
-        return null;
     }
 }

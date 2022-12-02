@@ -22,7 +22,6 @@ public class FileHandler {
                             member.getAddress() + "," +
                             member.getPhoneNumber() + "," +
                             member.getMemberType() + "," +
-                            member.getMembershipType() + "," +
                             member.isActivityType() + "," +
                             member.getHasPaid());
             }
@@ -38,7 +37,8 @@ public class FileHandler {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] att = line.split(",");
-                Member memberLoad = new Member(att[0],
+                Member memberLoad = new
+                        Member(att[0],
                         LocalDate.parse(att[1]),
                         att[2],
                         att[3],

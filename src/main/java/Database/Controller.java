@@ -1,5 +1,4 @@
 package Database;
-import Database.Database;
 import FileHandler.FileHandler;
 import MemberClass.*;
 
@@ -7,8 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Controller {
-    private FileHandler fileHandler;
-    private Database database;
+    private final FileHandler fileHandler;
+    private final Database database;
 
     public Controller() {
         fileHandler = new FileHandler();
@@ -30,7 +29,7 @@ public class Controller {
         fileHandler.saveMembers(database.getMembers());
     }
 
-    public boolean removeMember(int nr) {
-        return database.removeMember(nr);
+    public void removeMember(int nr) {
+        database.removeMember(nr);
     }
 }
