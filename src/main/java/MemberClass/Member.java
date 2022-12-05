@@ -19,6 +19,8 @@ public class Member {
     private String formatted;
     private boolean hasPaid;
 
+
+
     public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType, boolean hasPaid) {
         this.memberID = createID();
         this.name = name;
