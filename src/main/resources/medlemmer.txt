@@ -20,6 +20,5 @@ cd94,Valry Sergeant,2012-08-15,vsergeantj@histats.com,2 Walton Center,13093788,f
 4d1f,Archambault Warhurst,1977-05-23,awarhurstl@slate.com,08 Ramsey Circle,56535389,true,true,true
 977b,Palm Pien,1960-06-21,ppienm@java.com,3 Graceland Junction,79052851,false,true,true
 e17d,Trixy Olijve,1984-04-27,tolijven@hexun.com,620 Fair Oaks Terrace,83571489,true,false,true
-2f5d,Ginni Cregg,1980-02-17,gcreggo@networkadvertising.org,6566 Monument Point,82138151,false,true,false
 30d7,Alic Gantzer,1959-11-22,agantzerp@pbs.org,0925 Golf Lane,58279657,true,false,true
 e7d8,Damiano Buttel,2015-04-02,dbuttelq@webs.com,3 Main Trail,80669217,true,false,true

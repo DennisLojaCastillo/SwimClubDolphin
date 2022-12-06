@@ -2,10 +2,11 @@ package UI;
 
 import Database.Controller;
 import MemberClass.*;
-
-import java.time.Instant;
+import de.vandermeer.asciitable.AT_Row;
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.asciitable.CWC_FixedWidth;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -161,6 +162,7 @@ public class UserInterface {
 
     }
 
+    /*
     public void listMembers() {
         if (controller.getMembers().size() < 1) {
             printNoMemberFoundMsg();
@@ -174,6 +176,31 @@ public class UserInterface {
             System.out.println("Total profit: " + totalProfit + "kr.");
         }
     }
+     */
+    public void listMembers() {
+        if (controller.getMembers().size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            AsciiTable at = new AsciiTable();
+            int totalProfit = 0;
+            int nr = 1;
+            at.addRule();
+            at.addRow("No.", "ID", "Name", "DOB", "Email", "Address", "Phone Number", "Member Type", "Activity Type", "Membership", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
+            for (Member member : controller.getMembers()) {
+                at.addRule();
+                DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), member.getEmail(), member.getAddress(), member.getPhoneNumber(), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), "None", (member.getMembershipAnnualPayment() + "kr")).setTextAlignment(TextAlignment.CENTER);
+                if(member.getHasPaid()) totalProfit += member.getMembershipAnnualPayment();
+                nr++;
+            }
+            at.addRule();
+            at.addRow(null,null,null,null,null,null,null,null,null, "Total profit:", (totalProfit + "kr")).setTextAlignment(TextAlignment.CENTER);
+            at.addRule();
+            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(30).add(35).add(15).add(15).add(15).add(15).add(18));
+            String rend = at.render();
+            System.out.println(rend + "\n");
+        }
+    }
 
 
 
@@ -182,12 +209,7 @@ public class UserInterface {
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            System.out.println("> Members List:");
-
-            for (int i = 0; i < memberList.size(); i++) {
-                System.out.println("[" + (i + 1) + "] \n" + memberList.get(i));
-            }
-
+            listMembers();
             System.out.println("Enter a number to edit the members information:");
             int num = readInteger();
             Member editMember;
@@ -385,6 +407,7 @@ public class UserInterface {
         }
     }
 
+    /*
     public void listMembersRestance() {
         if (controller.getMembers().size() < 1) {
             printNoMemberFoundMsg();
@@ -399,6 +422,34 @@ public class UserInterface {
             System.out.println("Total missing profit: " + totalMissingProfit + "kr.");
         }
     }
+
+     */
+    public void listMembersRestance() {
+        if (controller.getMembers().size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            ArrayList<Member> restanceMembers = controller.getMembersRestance();
+            AsciiTable at = new AsciiTable();
+            int nr = 1;
+            at.addRule();
+            at.addRow("No.", "ID", "Name", "DOB", "Email", "Address", "Phone Number", "Paid Status", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
+            int totalMissingProfit = controller.getMissingProfit();
+            for (Member member : restanceMembers) {
+                at.addRule();
+                DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), member.getEmail(), member.getAddress(), member.getPhoneNumber(), (member.getHasPaid() ? "Paid" : "Not Paid"), (member.getMembershipAnnualPayment() + "kr")).setTextAlignment(TextAlignment.CENTER);
+                nr++;
+            }
+            at.addRule();
+            at.addRow(null,null,null,null,null,null,null, "Total profit:", (totalMissingProfit + "kr")).setTextAlignment(TextAlignment.CENTER);
+            at.addRule();
+            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(30).add(35).add(15).add(15).add(18));
+            String rend = at.render();
+            System.out.println(rend + "\n");
+        }
+    }
+
+    /*
     public void listMembersHasPaid() {
         if (controller.getMembers().size() < 1) {
             printNoMemberFoundMsg();
@@ -410,6 +461,32 @@ public class UserInterface {
             }
             int totalProfitEarnings = controller.getTotalProfit();
             System.out.println("Total profit: " + totalProfitEarnings + "kr.");
+        }
+    }
+     */
+
+    public void listMembersHasPaid() {
+        if (controller.getMembers().size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            ArrayList<Member> membersPaid = controller.getMemberProfit();
+            AsciiTable at = new AsciiTable();
+            int nr = 1;
+            at.addRule();
+            at.addRow("No.", "ID", "Name", "DOB", "Email", "Address", "Phone Number", "Paid Status", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
+            int totalProfitEarnings = controller.getTotalProfit();
+            for (Member member : membersPaid) {
+                at.addRule();
+                DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), member.getEmail(), member.getAddress(), member.getPhoneNumber(), (member.getHasPaid() ? "Paid" : "Not Paid"), (member.getMembershipAnnualPayment() + "kr")).setTextAlignment(TextAlignment.CENTER);
+                nr++;
+            }
+            at.addRule();
+            at.addRow(null,null,null,null,null,null,null, "Total profit:", (totalProfitEarnings + "kr")).setTextAlignment(TextAlignment.CENTER);
+            at.addRule();
+            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(30).add(35).add(15).add(15).add(18));
+            String rend = at.render();
+            System.out.println(rend + "\n");
         }
     }
 
