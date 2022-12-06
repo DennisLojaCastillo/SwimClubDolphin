@@ -55,9 +55,38 @@ class DatabaseTest {
         //Act til Member i restance metode
         ArrayList<Member> restanceMedlemmer = database.getMembersRestance();
         //Assert at metode gør hvad den skal
-        assertEquals(1,restanceMedlemmer.size());
+        assertEquals(1, restanceMedlemmer.size());
     }
 
-    //void kontigentBeregning() {
-        //database
+    @Test
+    void kontigentBeregningJunior() {
+        Member juninor = new Member("nichlas", LocalDate.of(2012, 10, 10), null, null, 0, true, true, true);
+        int exspectedFee = 1000;
+        int fee = juninor.getMembershipAnnualPayment();
+        assertEquals(exspectedFee, fee);
     }
+
+    @Test
+    void kontigentBeregningAdult() {
+        Member adult = new Member("Amir", LocalDate.of(1998, 10, 10), null, null, 0, true, true, true);
+        int exspectedFee = 1600;
+        int fee = adult.getMembershipAnnualPayment();
+        assertEquals(exspectedFee, fee);
+    }
+
+    @Test
+    void kontigentBeregningSenior() {
+        Member senior = new Member("Dennis", LocalDate.of(1950, 10, 10), null, null, 0, true, true, true);
+        int exspectedFee = 1200;
+        int fee = senior.getMembershipAnnualPayment();
+        assertEquals(exspectedFee, fee);
+    }
+
+    @Test
+    void kontigentBeregningPassive() {
+        Member passive = new Member("Samim", LocalDate.of(2012, 10, 10), null, null, 0, false, true, true);
+        int exspectedFee = 500;
+        int fee = passive.getMembershipAnnualPayment();
+        assertEquals(exspectedFee, fee);
+    }
+}
