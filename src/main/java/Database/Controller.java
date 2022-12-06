@@ -40,6 +40,16 @@ public class Controller {
         }
         return profitMissing;
     }
+    public ArrayList<Member> getMemberProfit() {
+        return database.getProfitOfMembers();
+    }
+    public int getTotalProfit() {
+        int totalProfit = 0;
+        for (Member member : getMemberProfit()) {
+            totalProfit += member.getMembershipAnnualPayment();
+        }
+        return totalProfit;
+    }
 
     public void removeMember(int nr) {
         database.removeMember(nr);

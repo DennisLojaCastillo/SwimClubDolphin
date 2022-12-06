@@ -175,6 +175,8 @@ public class UserInterface {
         }
     }
 
+
+
     public void editMember() {
         ArrayList<Member> memberList = controller.getMembers();
         if (memberList.size() < 1) {
@@ -302,7 +304,7 @@ public class UserInterface {
 
     public void handlingCashierChoice(int userChoice) {
         switch (userChoice) {
-            case 1 -> listMembers();
+            case 1 -> listMembersHasPaid();
             case 2 -> editMemberPayment();
             case 3 -> listMembersRestance();
             case 9 -> System.out.println("Going back\n");
@@ -397,6 +399,20 @@ public class UserInterface {
             System.out.println("Total missing profit: " + totalMissingProfit + "kr.");
         }
     }
+    public void listMembersHasPaid() {
+        if (controller.getMembers().size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            ArrayList<Member> totalProfit = controller.getMemberProfit();
+            System.out.println("List of members");
+            for (Member member : controller.getMembers()) {
+                System.out.println(member);
+            }
+            int totalProfitEarnings = controller.getTotalProfit();
+            System.out.println("Total profit: " + totalProfitEarnings + "kr.");
+        }
+    }
+
 
 
 

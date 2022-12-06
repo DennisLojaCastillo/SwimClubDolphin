@@ -1,6 +1,7 @@
 package Database;
 import MemberClass.*;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -28,6 +29,15 @@ public class Database {
             }
         }
         return restanceMembers;
+    }
+    public ArrayList<Member> getProfitOfMembers() {
+        ArrayList<Member> profitMembers = new ArrayList<>();
+        for (Member member : members) {
+            if (member.getHasPaid()) {
+                profitMembers.add(member);
+            }
+        }
+        return profitMembers;
     }
 
     public boolean removeMember(int nr) {

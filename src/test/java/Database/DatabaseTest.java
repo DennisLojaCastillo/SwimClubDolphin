@@ -1,7 +1,11 @@
 package Database;
 
+import MemberClass.Member;
+import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,4 +46,18 @@ class DatabaseTest {
         database.removeMember(1);
         assertEquals(0, database.getMembers().size());
     }
-}
+
+    @Test
+    void restanceListe() {
+        //Arrange testdata
+        database.addMember("nichlas", LocalDate.now(), null, null, 0, true, true, true);
+        database.addMember("Tine", LocalDate.now(), null, null, 0, true, true, false);
+        //Act til Member i restance metode
+        ArrayList<Member> restanceMedlemmer = database.getMembersRestance();
+        //Assert at metode gør hvad den skal
+        assertEquals(1,restanceMedlemmer.size());
+    }
+
+    //void kontigentBeregning() {
+        //database
+    }
