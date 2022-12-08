@@ -57,6 +57,7 @@ public class Member {
         membershipFee();
     }
 
+    //This creates random Member ID to a member of the swim club
     private String createID(){
         var full = UUID.randomUUID();
         var fullAsString = full.toString();
@@ -68,6 +69,7 @@ public class Member {
         formatted = dateOfBirth.format(format);
     }
 
+    //This calculates the age of a member
     public void ageCalculator() {
         LocalDate today = LocalDate.now();
         this.age = Period.between(dateOfBirth, today).getYears();
@@ -84,6 +86,7 @@ public class Member {
         }
     }
 
+    //This sets the membership type after age
     public String membershipType() {
         ageCalculator();
         if (age < 18) {
@@ -96,7 +99,7 @@ public class Member {
     }
 
 
-
+    // Calculates the annual payment for each member type
     public void membershipFee() {
 
         if (!memberType) {

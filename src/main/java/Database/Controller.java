@@ -44,6 +44,7 @@ public class Controller {
         return tempMembers;
     }
 
+    //Listing disciplin records
     public ArrayList<Competition> getMemberDisciplin(String group) {
         ArrayList<Competition> tempMembers = new ArrayList<>();
         for(Competition competition : getRecords()) {
@@ -66,8 +67,6 @@ public class Controller {
         fileHandler.saveMembers(database.getMembers());
         fileHandler.saveRecords(database.getRecords());
     }
-
-
 
     public ArrayList<Member> getMembersRestance() {
         return database.getMembersRestance();

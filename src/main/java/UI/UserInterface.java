@@ -12,8 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserInterface {
     private final Scanner scanner;
@@ -714,11 +715,12 @@ public class UserInterface {
         return scanner.nextLine().toLowerCase();
     }
 
+
     private void printNoMemberFoundMsg(){
         System.out.println("No member found!");
     }
 
-    //TODO Work in progress
+    // Fail message date formatter
     private void localeDateFailMsg(String dateInput) {
             try {
                 DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");

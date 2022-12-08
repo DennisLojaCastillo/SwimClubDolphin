@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileHandler {
+    // This saves members to csv file
     public void saveMembers(ArrayList<Member> m) {
         try {
             PrintStream saveToFile = new PrintStream("src/main/resources/medlemmer.txt");
@@ -31,6 +32,7 @@ public class FileHandler {
         }
     }
 
+    // This saves members swim records to csv file
     public void saveRecords(ArrayList<Competition> c) {
         try {
             PrintStream saveToFile = new PrintStream("src/main/resources/records.txt");
@@ -48,6 +50,7 @@ public class FileHandler {
         }
     }
 
+    //This load the saved members
     public ArrayList<Member> loadMembers() {
         ArrayList<Member> memberList = new ArrayList<>();
         try {
@@ -72,6 +75,7 @@ public class FileHandler {
         return memberList;
     }
 
+    //This load the saved members swim records
     public ArrayList<Competition> loadRecords() {
         ArrayList<Competition> compList = new ArrayList<>();
         try {

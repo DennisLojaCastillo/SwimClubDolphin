@@ -38,6 +38,7 @@ public class Database {
         return members;
     }
 
+    // Listing all competitors for coach menu
     public ArrayList<Member> getMembersComp() {
         ArrayList<Member> compMembers = new ArrayList<>();
         for (Member member : members) {
@@ -51,6 +52,7 @@ public class Database {
         return records;
     }
 
+    //This method shows which member is in debt
     public ArrayList<Member> getMembersRestance() {
         ArrayList<Member> restanceMembers = new ArrayList<>();
         for (Member member : members) {
@@ -61,7 +63,7 @@ public class Database {
         return restanceMembers;
     }
 
-    //Sekvens Diagram
+    //This shows total profit from all members
     public ArrayList<Member> getProfitOfMembers() {
         ArrayList<Member> profitMembers = new ArrayList<>();
         for (Member member : members) {
@@ -72,6 +74,7 @@ public class Database {
         return profitMembers;
     }
 
+    //Method for remove a member in the list
     public boolean removeMember(int nr) {
         if (nr <= members.size()) {
             members.remove(nr - 1);
