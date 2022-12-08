@@ -40,7 +40,8 @@ public class FileHandler {
                                 competition.getName() + "," +
                                 competition.getEventName() + "," +
                                 competition.getPlacement() + "," +
-                                competition.getBestTime());
+                                competition.getBestTime() + "," +
+                                competition.getDisciplin());
             }
         } catch(IOException e) {
             System.out.println("Fejl!");
@@ -82,7 +83,8 @@ public class FileHandler {
                         att[1],
                         att[2],
                         Integer.parseInt(att[3]),
-                        Integer.parseInt(att[4]));
+                        Double.parseDouble(att[4]),
+                        att[5]);
                 compList.add(compLoad);
             }
         } catch (FileNotFoundException e) {

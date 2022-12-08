@@ -1,3 +1,5 @@
-59c2,Prent Mosco,roskilde svømmeklub,3,120
-a38b,Shandy Behn,odense svømmekonkurrence,1,54
-977b,Palm Pien,roskilde svøm,4,213132
+4d1f,Archambault Warhurst,msfn,1,5.0,Butterfly
+a38b,Shandy Behn,msdf,1,63.0,Crawl
+59c2,Prent Mosco,jsfsa,1,69.5,Backcrawl
+f15f,Gertrudis Russ,roks,2,33.0,Breaststroke
+8392,Delphine Chamberlen,roskilde konkurrence,2,44.0,Crawl

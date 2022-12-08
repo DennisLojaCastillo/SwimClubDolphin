@@ -18,8 +18,8 @@ public class Controller {
         database.addMember(name, dateOfBirth, email, address, phoneNumber,memberType, activityType, hasPaid);
     }
 
-    public void addRecord(String memberID, String name, String eventName, int placement, double bestTime) {
-        database.addRecord(memberID, name, eventName, placement, bestTime);
+    public void addRecord(String memberID, String name, String eventName, int placement, double bestTime, String disciplin) {
+        database.addRecord(memberID, name, eventName, placement, bestTime, disciplin);
     }
 
     public ArrayList<Competition> getRecords() {
@@ -31,6 +31,16 @@ public class Controller {
     }
     public ArrayList<Member> getMembersComp() {
         return database.getMembersComp();
+    }
+
+    public ArrayList<Member> getMembersCompSpecific(String group) {
+        ArrayList<Member> tempMembers = new ArrayList<>();
+        for(Member member : getMembersComp()) {
+            if(member.membershipType() == group) {
+                tempMembers.add(member);
+            }
+        }
+        return tempMembers;
     }
 
     public void loadMembers() {
@@ -71,4 +81,14 @@ public class Controller {
     public void removeMember(int nr) {
         database.removeMember(nr);
     }
+
+    public Trainer getTrainer(String ageGroup) {
+        for(Trainer trainer : database.getTrainers()) {
+            if(trainer.getTrainerGroup() == ageGroup) {
+                return trainer;
+            }
+        }
+        return null;
+    }
+
 }

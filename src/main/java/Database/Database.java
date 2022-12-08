@@ -8,6 +8,13 @@ public class Database {
     private ArrayList<Member> members = new ArrayList<>();
     private ArrayList<Competition> records = new ArrayList<>();
 
+    private ArrayList<Trainer> trainers = new ArrayList<>();
+
+    public Database() {
+        trainers.add(new Trainer("Amir", 28394739, "coach_amir@clubdolphin.dk", "Adult"));
+        trainers.add(new Trainer("Dennis", 18293732, "coach_dennis@clubdolphin.dk", "Junior"));
+    }
+
     public void addArrayMember(ArrayList<Member> m) {
         members = m;
     }
@@ -15,12 +22,16 @@ public class Database {
         records = c;
     }
 
-    public void addRecord(String memberID, String name, String eventName, int placement, double bestTime) {
-        records.add(new Competition(memberID, name, eventName, placement, bestTime));
+    public void addRecord(String memberID, String name, String eventName, int placement, double bestTime, String disciplin) {
+        records.add(new Competition(memberID, name, eventName, placement, bestTime, disciplin));
     }
 
     public void addMember(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType, boolean hasPaid) {
         members.add(new Member(name, dateOfBirth, email, address, phoneNumber, memberType, activityType, hasPaid));
+    }
+
+    public ArrayList<Trainer> getTrainers() {
+        return trainers;
     }
 
     public ArrayList<Member> getMembers() {
@@ -30,7 +41,7 @@ public class Database {
     public ArrayList<Member> getMembersComp() {
         ArrayList<Member> compMembers = new ArrayList<>();
         for (Member member : members) {
-            if (member.isActivityType()) {
+            if (member.isActivityType() && member.getMemberType() && (member.membershipType() == "Adult" || member.membershipType() == "Junior")) {
                 compMembers.add(member);
             }
         }

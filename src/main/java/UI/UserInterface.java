@@ -1,5 +1,7 @@
 package UI;
 
+import Comparators.PlacementComparator;
+import Comparators.TimeComparator;
 import Database.Controller;
 import MemberClass.*;
 import de.vandermeer.asciitable.AsciiTable;
@@ -9,6 +11,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -18,6 +22,7 @@ public class UserInterface {
     private final Scanner scanner;
     private final Controller controller;
     LocalDate validDate = null;
+    private Trainer assignedTrainer;
 
     public UserInterface() {
         scanner = new Scanner(System.in);
@@ -47,7 +52,7 @@ public class UserInterface {
         switch (menuChoice) {
             case 1 -> chairmanMenu();
             case 2 -> cashierMenu();
-            case 3 -> coachMenu();
+            case 3 -> coachSelectMenu();
             case 9 -> {
                 System.out.println("Closing programme...");
                 controller.saveMembers();
@@ -169,11 +174,11 @@ public class UserInterface {
             int totalProfit = 0;
             int nr = 1;
             at.addRule();
-            at.addRow("No.", "ID", "Name", "DOB", "Email", "Address", "Phone Number", "Member Type", "Activity Type", "Membership", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
+            at.addRow("No.", "ID", "Name", "Birthdate", "Email", "Address", "Phone Number", "Member Type", "Activity Type", "Membership", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
             for (Member member : controller.getMembers()) {
                 at.addRule();
                 DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), member.getEmail(), member.getAddress(), member.getPhoneNumber(), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), "None", (member.getMembershipAnnualPayment() + "kr")).setTextAlignment(TextAlignment.CENTER);
+                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), member.getEmail(), member.getAddress(), member.getPhoneNumber(), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), member.membershipType(), (member.getMembershipAnnualPayment() + "kr")).setTextAlignment(TextAlignment.CENTER);
                 if (member.getHasPaid()) totalProfit += member.getMembershipAnnualPayment();
                 nr++;
             }
@@ -398,7 +403,7 @@ public class UserInterface {
             AsciiTable at = new AsciiTable();
             int nr = 1;
             at.addRule();
-            at.addRow("No.", "ID", "Name", "DOB", "Email", "Address", "Phone Number", "Paid Status", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
+            at.addRow("No.", "ID", "Name", "Birthdate", "Email", "Address", "Phone Number", "Paid Status", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
             int totalMissingProfit = controller.getMissingProfit();
             for (Member member : restanceMembers) {
                 at.addRule();
@@ -423,7 +428,7 @@ public class UserInterface {
             AsciiTable at = new AsciiTable();
             int nr = 1;
             at.addRule();
-            at.addRow("No.", "ID", "Name", "DOB", "Email", "Address", "Phone Number", "Paid Status", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
+            at.addRow("No.", "ID", "Name", "Birthdate", "Email", "Address", "Phone Number", "Paid Status", "Annual Payment").setTextAlignment(TextAlignment.CENTER);
             int totalProfitEarnings = controller.getTotalProfit();
             for (Member member : membersPaid) {
                 at.addRule();
@@ -443,6 +448,40 @@ public class UserInterface {
 
     //----------------------------------------------------------------------------------------------------------------
     // Coach Menu
+
+    public void coachSelectMenu() {
+        int userChoice;
+        do {
+            System.out.println("""
+                    Select your trainer  age group
+                     ------------------------------------
+                    1. Junior (<18 years old)
+                    2. Adult (18> years old)
+                                        
+                    9. Go back
+                     """);
+            userChoice = readInteger();
+            scanner.nextLine();
+            handlingCoachSelectChoice(userChoice);
+        } while (userChoice != 9);
+    }
+
+    public void handlingCoachSelectChoice(int userChoice) {
+        switch (userChoice) {
+            case 1 -> {
+                assignedTrainer = controller.getTrainer("Junior");
+                coachMenu();
+            }
+            case 2 -> {
+                assignedTrainer = controller.getTrainer("Adult");
+                coachMenu();
+            }
+            default -> System.out.println("""   
+                    Could not handle input. Please try again
+                    Choose menu item from 1-3
+                    """);
+        }
+    }
 
     public void coachMenu() {
         int userChoice;
@@ -476,7 +515,7 @@ public class UserInterface {
     }
 
     public void addRecordCoach() {
-        ArrayList<Member> memberList = controller.getMembers();
+        ArrayList<Member> memberList = controller.getMembersCompSpecific(assignedTrainer.getTrainerGroup());
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
         } else {
@@ -502,7 +541,40 @@ public class UserInterface {
                 int bestTime = readInteger();
                 scanner.nextLine();
 
-                controller.addRecord(editMember.getMemberID(), editMember.getName(), eventName, placement, bestTime);
+                System.out.println("Select the swimming disciplin");
+                boolean legalDisciplin = false;
+                String disciplin = "";
+                while (!legalDisciplin) {
+                    System.out.println("""
+                            Select disciplin:
+                            1. Butterfly
+                            2. Crawl
+                            3. Backcrawl
+                            4. Breaststroke
+                            """);
+                    int actType = readInteger();
+                    switch (actType) {
+                        case 1 -> {
+                            disciplin = "Butterfly";
+                            legalDisciplin = true;
+                        }
+                        case 2 -> {
+                            disciplin = "Crawl";
+                            legalDisciplin = true;
+                        }
+                        case 3 -> {
+                            disciplin = "Backcrawl";
+                            legalDisciplin = true;
+                        }
+                        case 4 -> {
+                            disciplin = "Breaststroke";
+                            legalDisciplin = true;
+                        }
+                        default -> System.out.println("Disciplin not found! Try again.");
+                    }
+                }
+
+                controller.addRecord(editMember.getMemberID(), editMember.getName(), eventName, placement, bestTime, disciplin);
             }
         }
 
@@ -516,15 +588,17 @@ public class UserInterface {
             AsciiTable at = new AsciiTable();
             int nr = 1;
             at.addRule();
-            at.addRow("No.", "ID", "Name", "DOB", "Member Type", "Activity Type", "Membership").setTextAlignment(TextAlignment.CENTER);
+            at.addRow("No.", "ID", "Name", "Birthdate", "Member Type", "Activity Type", "Membership", "Trainer").setTextAlignment(TextAlignment.CENTER);
             for (Member member : memberList) {
-                at.addRule();
-                DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), "None").setTextAlignment(TextAlignment.CENTER);
-                nr++;
+                if(controller.getTrainer(member.membershipType()) == assignedTrainer) {
+                    at.addRule();
+                    DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), member.membershipType(), controller.getTrainer(member.membershipType()).getName()).setTextAlignment(TextAlignment.CENTER);
+                    nr++;
+                }
             }
             at.addRule();
-            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(15).add(15).add(15));
+            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(15).add(15).add(15).add(20));
             String rend = at.render();
             System.out.println(rend + "\n");
         }
@@ -579,22 +653,23 @@ public class UserInterface {
             printNoMemberFoundMsg();
         } else {
             ArrayList<Competition> recordMembers = controller.getRecords();
+            Collections.sort(controller.getRecords(), new PlacementComparator().thenComparing(new TimeComparator()));
             AsciiTable at = new AsciiTable();
             int nr = 1;
             at.addRule();
-            at.addRow("No.", "ID", "Name", "Event", "Placement", "Best Time").setTextAlignment(TextAlignment.CENTER);
-            int totalMissingProfit = controller.getMissingProfit();
+            at.addRow("No.", "ID", "Name", "Event", "Placement", "Best Time", "Disciplin").setTextAlignment(TextAlignment.CENTER);
             for (Competition comp : recordMembers) {
                 at.addRule();
-                at.addRow(nr, comp.getMemberID(), comp.getName(), comp.getEventName(), comp.getPlacement(), comp.getBestTime()).setTextAlignment(TextAlignment.CENTER);
+                at.addRow(nr, comp.getMemberID(), comp.getName(), comp.getEventName(), comp.getPlacement(), comp.getBestTime(), comp.getDisciplin()).setTextAlignment(TextAlignment.CENTER);
                 nr++;
             }
             at.addRule();
-            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(25).add(30).add(14).add(14));
+            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(25).add(30).add(14).add(14).add(15));
             String rend = at.render();
             System.out.println(rend + "\n");
         }
     }
+
     // ------------------------------------------------------------
     // SCANNER INPUT HANDLER
     public int readInteger() {
