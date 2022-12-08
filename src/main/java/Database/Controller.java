@@ -18,7 +18,7 @@ public class Controller {
         database.addMember(name, dateOfBirth, email, address, phoneNumber,memberType, activityType, hasPaid);
     }
 
-    public void addRecord(String memberID, String name, String eventName, int placement, int bestTime) {
+    public void addRecord(String memberID, String name, String eventName, int placement, double bestTime) {
         database.addRecord(memberID, name, eventName, placement, bestTime);
     }
 

@@ -3,9 +3,9 @@ package MemberClass;
 public class Competition extends Member {
     private String eventName;
     private int placement;
-    private int bestTime;
+    private double bestTime;
 
-    public Competition(String memberID, String name, String eventName, int placement, int bestTime) {
+    public Competition(String memberID, String name, String eventName, int placement, double bestTime) {
         super(memberID, name);
         this.eventName = eventName;
         this.placement = placement;
@@ -29,11 +29,11 @@ public class Competition extends Member {
         this.placement = placement;
     }
 
-    public int getBestTime() {
+    public double getBestTime() {
         return bestTime;
     }
 
-    public void setBestTime(int bestTime) {
+    public void setBestTime(double bestTime) {
         this.bestTime = bestTime;
     }
 

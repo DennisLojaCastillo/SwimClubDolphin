@@ -15,7 +15,7 @@ public class Database {
         records = c;
     }
 
-    public void addRecord(String memberID, String name, String eventName, int placement, int bestTime) {
+    public void addRecord(String memberID, String name, String eventName, int placement, double bestTime) {
         records.add(new Competition(memberID, name, eventName, placement, bestTime));
     }
 

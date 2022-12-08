@@ -84,6 +84,19 @@ public class Member {
         }
     }
 
+    public String membershipType() {
+        ageCalculator();
+        if (age < 18) {
+            return "Junior";
+        } else if (age > 60) {
+            return "Senior";
+        } else {
+            return "Adult";
+        }
+    }
+
+
+
     public void membershipFee() {
 
         if (!memberType) {

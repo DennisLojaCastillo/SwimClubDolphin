@@ -1,10 +1,10 @@
-package Comperators;
+package Comparators;
 
 import MemberClass.Member;
 
 import java.util.Comparator;
 
-public class MemberIDComperator implements Comparator<Member> {
+public class MemberIDComparator implements Comparator<Member> {
 
     @Override
     public int compare(Member id1, Member id2) {
