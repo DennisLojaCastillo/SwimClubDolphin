@@ -505,7 +505,41 @@ public class UserInterface {
         switch (userChoice) {
             case 1 -> addRecordCoach();
             case 2 -> editCoachMethod();
-            case 3 -> viewTop5();
+            case 3 -> topViewMenu();
+            case 9 -> System.out.println("Going back\n");
+            default -> System.out.println("""   
+                    Could not handle input. Please try again
+                    Choose menu item from 1-3
+                    """);
+        }
+    }
+
+    public void topViewMenu() {
+        int userChoice;
+        do {
+            System.out.println("""
+                    Top 5 View
+                     ------------------------------------
+                    1. Butterfly
+                    2. Crawl
+                    3. Backcrawl
+                    4. Breaststroke
+                                        
+                    9. Go back
+                     """);
+            userChoice = readInteger();
+            scanner.nextLine();
+            handlingTopView(userChoice);
+        } while (userChoice != 9);
+    }
+
+    public void handlingTopView(int userChoice) {
+        switch (userChoice) {
+            case 1 -> viewTop5("Butterfly");
+            case 2 -> viewTop5("Crawl");
+            case 3 -> viewTop5("Backcrawl");
+            case 4 -> viewTop5("Breaststroke");
+
             case 9 -> System.out.println("Going back\n");
             default -> System.out.println("""   
                     Could not handle input. Please try again
@@ -609,7 +643,7 @@ public class UserInterface {
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            viewTop5();
+            //viewTop5();
             int num = readInteger();
             Competition editMember;
             scanner.nextLine();
@@ -648,20 +682,20 @@ public class UserInterface {
     }
 }
 
-    public void viewTop5() {
+    public void viewTop5(String selectedDisciplin) {
         if (controller.getRecords().size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            ArrayList<Competition> recordMembers = controller.getRecords();
+            ArrayList<Competition> recordMembers = controller.getMemberDisciplin(selectedDisciplin);
             Collections.sort(controller.getRecords(), new PlacementComparator().thenComparing(new TimeComparator()));
             AsciiTable at = new AsciiTable();
             int nr = 1;
             at.addRule();
             at.addRow("No.", "ID", "Name", "Event", "Placement", "Best Time", "Disciplin").setTextAlignment(TextAlignment.CENTER);
             for (Competition comp : recordMembers) {
-                at.addRule();
-                at.addRow(nr, comp.getMemberID(), comp.getName(), comp.getEventName(), comp.getPlacement(), comp.getBestTime(), comp.getDisciplin()).setTextAlignment(TextAlignment.CENTER);
-                nr++;
+                    at.addRule();
+                    at.addRow(nr, comp.getMemberID(), comp.getName(), comp.getEventName(), comp.getPlacement(), comp.getBestTime(), comp.getDisciplin()).setTextAlignment(TextAlignment.CENTER);
+                    nr++;
             }
             at.addRule();
             at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(25).add(30).add(14).add(14).add(15));

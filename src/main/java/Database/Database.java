@@ -60,6 +60,8 @@ public class Database {
         }
         return restanceMembers;
     }
+
+    //Sekvens Diagram
     public ArrayList<Member> getProfitOfMembers() {
         ArrayList<Member> profitMembers = new ArrayList<>();
         for (Member member : members) {

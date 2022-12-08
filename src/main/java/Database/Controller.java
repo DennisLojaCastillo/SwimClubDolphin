@@ -33,11 +33,22 @@ public class Controller {
         return database.getMembersComp();
     }
 
+
     public ArrayList<Member> getMembersCompSpecific(String group) {
         ArrayList<Member> tempMembers = new ArrayList<>();
         for(Member member : getMembersComp()) {
             if(member.membershipType() == group) {
                 tempMembers.add(member);
+            }
+        }
+        return tempMembers;
+    }
+
+    public ArrayList<Competition> getMemberDisciplin(String group) {
+        ArrayList<Competition> tempMembers = new ArrayList<>();
+        for(Competition competition : getRecords()) {
+            if(competition.getDisciplin().equals(group)) {
+                tempMembers.add(competition);
             }
         }
         return tempMembers;
