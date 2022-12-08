@@ -535,7 +535,7 @@ public class UserInterface {
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            listMembersCoach();
+            viewTop5();
             int num = readInteger();
             Competition editMember;
             scanner.nextLine();
