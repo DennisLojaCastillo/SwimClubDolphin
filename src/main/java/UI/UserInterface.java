@@ -34,7 +34,7 @@ public class UserInterface {
                     1. Chairman Management
                     2. Cashier Management
                     3. Coach Management
-                    
+                                        
                     9. Close Programme
                     """);
             menuChoice = readInteger();
@@ -73,7 +73,7 @@ public class UserInterface {
                     2. See Members List
                     3. Edit Member
                     4. Remove Member
-                    
+                                        
                     9. Go back
                      """);
             userChoice = readInteger();
@@ -174,18 +174,17 @@ public class UserInterface {
                 at.addRule();
                 DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), member.getEmail(), member.getAddress(), member.getPhoneNumber(), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), "None", (member.getMembershipAnnualPayment() + "kr")).setTextAlignment(TextAlignment.CENTER);
-                if(member.getHasPaid()) totalProfit += member.getMembershipAnnualPayment();
+                if (member.getHasPaid()) totalProfit += member.getMembershipAnnualPayment();
                 nr++;
             }
             at.addRule();
-            at.addRow(null,null,null,null,null,null,null,null,null, "Total profit:", (totalProfit + "kr")).setTextAlignment(TextAlignment.CENTER);
+            at.addRow(null, null, null, null, null, null, null, null, null, "Total profit:", (totalProfit + "kr")).setTextAlignment(TextAlignment.CENTER);
             at.addRule();
             at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(30).add(35).add(15).add(15).add(15).add(15).add(18));
             String rend = at.render();
             System.out.println(rend + "\n");
         }
     }
-
 
 
     public void editMember() {
@@ -321,7 +320,7 @@ public class UserInterface {
         }
     }
 
-    public void editMemberPayment () {
+    public void editMemberPayment() {
         ArrayList<Member> memberList = controller.getMembers();
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
@@ -367,7 +366,7 @@ public class UserInterface {
                 System.out.println("Current payment status: " + (editMember.getHasPaid() ? "Paid" : "Not Paid"));
                 System.out.println("Please enter the new payment status below");
                 boolean legalPayment = false;
-                while (!legalPayment){
+                while (!legalPayment) {
                     System.out.println("""
                             Select Payment Status:
                             1. Member has Paid
@@ -408,7 +407,7 @@ public class UserInterface {
                 nr++;
             }
             at.addRule();
-            at.addRow(null,null,null,null,null,null,null, "Total profit:", (totalMissingProfit + "kr")).setTextAlignment(TextAlignment.CENTER);
+            at.addRow(null, null, null, null, null, null, null, "Total profit:", (totalMissingProfit + "kr")).setTextAlignment(TextAlignment.CENTER);
             at.addRule();
             at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(30).add(35).add(15).add(15).add(18));
             String rend = at.render();
@@ -433,16 +432,13 @@ public class UserInterface {
                 nr++;
             }
             at.addRule();
-            at.addRow(null,null,null,null,null,null,null, "Total profit:", (totalProfitEarnings + "kr")).setTextAlignment(TextAlignment.CENTER);
+            at.addRow(null, null, null, null, null, null, null, "Total profit:", (totalProfitEarnings + "kr")).setTextAlignment(TextAlignment.CENTER);
             at.addRule();
             at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(30).add(35).add(15).add(15).add(18));
             String rend = at.render();
             System.out.println(rend + "\n");
         }
     }
-
-
-
 
 
     //----------------------------------------------------------------------------------------------------------------
@@ -469,7 +465,7 @@ public class UserInterface {
     public void handlingCoachChoice(int userChoice) {
         switch (userChoice) {
             case 1 -> addRecordCoach();
-            // case 2 -> EditCoachMethod
+            case 2 -> editCoachMethod();
             case 3 -> viewTop5();
             case 9 -> System.out.println("Going back\n");
             default -> System.out.println("""   
@@ -533,6 +529,50 @@ public class UserInterface {
             System.out.println(rend + "\n");
         }
     }
+
+    public void editCoachMethod() {
+        ArrayList<Competition> memberList = controller.getRecords();
+        if (memberList.size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            listMembersCoach();
+            int num = readInteger();
+            Competition editMember;
+            scanner.nextLine();
+            if (num - 1 >= controller.getRecords().size()) {
+                System.out.println("Records not found!");
+            } else {
+                editMember = memberList.get(num - 1);
+                System.out.println("You are editing " + editMember.getName());
+
+                System.out.println("Current Name: " + editMember.getName());
+                System.out.println("Please enter the new NAME below");
+                String newName = readString();
+                if (!newName.isEmpty()) {
+                    editMember.setName(newName);
+                }
+                System.out.println("Current Event name: " + editMember.getEventName());
+                System.out.println("Please enter the new Event name below");
+                String newEventName = readString();
+                if (!newEventName.isEmpty()) {
+                    editMember.setEventName(newEventName);
+                }
+                System.out.println("Current Placement: " + editMember.getPlacement());
+                System.out.println("Please enter the new PLACEMENT below");
+                String newPlacement = readString();
+                if (!newPlacement.isEmpty()) {
+                    editMember.setPlacement(Integer.parseInt(newPlacement));
+                }
+                System.out.println("Current Best time: " + editMember.getBestTime());
+                System.out.println("Please enter the new BEST TIME below");
+                String newBestTime = readString();
+                if (!newBestTime.isEmpty()) {
+                    editMember.setBestTime(Double.parseDouble(newBestTime));
+            }
+        }
+
+    }
+}
 
     public void viewTop5() {
         if (controller.getRecords().size() < 1) {
