@@ -13,13 +13,11 @@ public class Member {
     private String address;
     private int phoneNumber;
     private boolean memberType;
-    private final boolean activityType;
+    private boolean activityType;
     private String membershipAgeType;
     private int membershipAnnualPayment;
     private String formatted;
     private boolean hasPaid;
-
-
 
     public Member(String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType, boolean hasPaid) {
         this.memberID = createID();
@@ -35,6 +33,12 @@ public class Member {
         ageCalculator();
         membershipAgeType();
         membershipFee();
+    }
+
+
+    public Member(String memberID, String name) {
+        this.memberID = memberID;
+        this.name = name;
     }
 
     public Member(String memberID, String name, LocalDate dateOfBirth, String email, String address, int phoneNumber, boolean memberType, boolean activityType, boolean hasPaid) {
@@ -56,8 +60,7 @@ public class Member {
     private String createID(){
         var full = UUID.randomUUID();
         var fullAsString = full.toString();
-        var firstFourCharacters = fullAsString.substring(0,4);
-        return firstFourCharacters;
+        return fullAsString.substring(0,4);
     }
 
     public void format() {

@@ -2,7 +2,6 @@ package UI;
 
 import Database.Controller;
 import MemberClass.*;
-import de.vandermeer.asciitable.AT_Row;
 import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.asciitable.CWC_FixedWidth;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
@@ -48,7 +47,7 @@ public class UserInterface {
         switch (menuChoice) {
             case 1 -> chairmanMenu();
             case 2 -> cashierMenu();
-            case 3 -> System.out.println("Coach Management Method here!");
+            case 3 -> coachMenu();
             case 9 -> {
                 System.out.println("Closing programme...");
                 controller.saveMembers();
@@ -162,21 +161,6 @@ public class UserInterface {
 
     }
 
-    /*
-    public void listMembers() {
-        if (controller.getMembers().size() < 1) {
-            printNoMemberFoundMsg();
-        } else {
-            int totalProfit = 0;
-            System.out.println("List of members");
-            for (Member member : controller.getMembers()) {
-                System.out.println(member);
-                totalProfit += member.getMembershipAnnualPayment();
-            }
-            System.out.println("Total profit: " + totalProfit + "kr.");
-        }
-    }
-     */
     public void listMembers() {
         if (controller.getMembers().size() < 1) {
             printNoMemberFoundMsg();
@@ -407,23 +391,6 @@ public class UserInterface {
         }
     }
 
-    /*
-    public void listMembersRestance() {
-        if (controller.getMembers().size() < 1) {
-            printNoMemberFoundMsg();
-        } else {
-            ArrayList<Member> restanceMembers = controller.getMembersRestance();
-            System.out.println("List of members");
-            for (Member member : restanceMembers) {
-                System.out.println(member);
-            }
-            int totalMissingProfit = controller.getMissingProfit();
-
-            System.out.println("Total missing profit: " + totalMissingProfit + "kr.");
-        }
-    }
-
-     */
     public void listMembersRestance() {
         if (controller.getMembers().size() < 1) {
             printNoMemberFoundMsg();
@@ -448,22 +415,6 @@ public class UserInterface {
             System.out.println(rend + "\n");
         }
     }
-
-    /*
-    public void listMembersHasPaid() {
-        if (controller.getMembers().size() < 1) {
-            printNoMemberFoundMsg();
-        } else {
-            ArrayList<Member> totalProfit = controller.getMemberProfit();
-            System.out.println("List of members");
-            for (Member member : controller.getMembers()) {
-                System.out.println(member);
-            }
-            int totalProfitEarnings = controller.getTotalProfit();
-            System.out.println("Total profit: " + totalProfitEarnings + "kr.");
-        }
-    }
-     */
 
     public void listMembersHasPaid() {
         if (controller.getMembers().size() < 1) {
@@ -497,10 +448,105 @@ public class UserInterface {
     //----------------------------------------------------------------------------------------------------------------
     // Coach Menu
 
+    public void coachMenu() {
+        int userChoice;
+        do {
+            System.out.println("""
+                    Logged in as coach
+                     ------------------------------------
+                    1. Add swimming record
+                    2. Edit swimming record(s)
+                    3. View top 5 swimmers
+                                        
+                    9. Go back
+                     """);
+            userChoice = readInteger();
+            scanner.nextLine();
+            handlingCoachChoice(userChoice);
+        } while (userChoice != 9);
+    }
 
+    public void handlingCoachChoice(int userChoice) {
+        switch (userChoice) {
+            case 1 -> listMembersCoach();
+            // case 2 -> EditCoachMethod
+            case 3 -> viewTop5();
+            case 9 -> System.out.println("Going back\n");
+            default -> System.out.println("""   
+                    Could not handle input. Please try again
+                    Choose menu item from 1-3
+                    """);
+        }
+    }
 
+    public void listMembersCoach() {
+        ArrayList<Member> memberList = controller.getMembersComp();
+        if (memberList.size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            AsciiTable at = new AsciiTable();
+            int nr = 1;
+            at.addRule();
+            at.addRow("No.", "ID", "Name", "DOB", "Member Type", "Activity Type", "Membership").setTextAlignment(TextAlignment.CENTER);
+            for (Member member : memberList) {
+                at.addRule();
+                DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), "None").setTextAlignment(TextAlignment.CENTER);
+                nr++;
+            }
+            at.addRule();
+            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(15).add(15).add(15));
+            String rend = at.render();
+            System.out.println(rend + "\n");
 
+            System.out.println("Select a member you want to add a record: ");
+            int num = readInteger();
+            Member editMember;
+            scanner.nextLine();
+            if (num - 1 >= controller.getMembers().size()) {
+                System.out.println("Member ID not found!");
+            } else {
+                editMember = memberList.get(num - 1);
+                System.out.println("You are adding a record for " + editMember.getName());
 
+                System.out.println("Enter event name: ");
+                String eventName = readString();
+
+                System.out.println("Enter placement: ");
+                int placement = readInteger();
+                scanner.nextLine();
+
+                System.out.println("Enter best time (in seconds): ");
+                int bestTime = readInteger();
+                scanner.nextLine();
+
+                controller.addRecord(editMember.getMemberID(), editMember.getName(), eventName, placement, bestTime);
+            }
+
+        }
+    }
+
+    public void viewTop5() {
+        if (controller.getRecords().size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            ArrayList<Competition> recordMembers = controller.getRecords();
+            AsciiTable at = new AsciiTable();
+            int nr = 1;
+            at.addRule();
+            at.addRow("No.", "ID", "Name", "Event", "Placement", "Best Time").setTextAlignment(TextAlignment.CENTER);
+            int totalMissingProfit = controller.getMissingProfit();
+            for (Competition comp : recordMembers) {
+                at.addRule();
+                at.addRow(nr, comp.getMemberID(), comp.getName(), comp.getEventName(), comp.getPlacement(), comp.getBestTime()).setTextAlignment(TextAlignment.CENTER);
+                nr++;
+            }
+            at.addRule();
+            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(25).add(30).add(14).add(14));
+            String rend = at.render();
+            System.out.println(rend + "\n");
+        }
+    }
     // ------------------------------------------------------------
     // SCANNER INPUT HANDLER
     public int readInteger() {

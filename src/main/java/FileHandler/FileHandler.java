@@ -31,6 +31,22 @@ public class FileHandler {
         }
     }
 
+    public void saveRecords(ArrayList<Competition> c) {
+        try {
+            PrintStream saveToFile = new PrintStream("src/main/resources/records.txt");
+            for (Competition competition : c) {
+                saveToFile.println(
+                        competition.getMemberID() + "," +
+                                competition.getName() + "," +
+                                competition.getEventName() + "," +
+                                competition.getPlacement() + "," +
+                                competition.getBestTime());
+            }
+        } catch(IOException e) {
+            System.out.println("Fejl!");
+        }
+    }
+
     public ArrayList<Member> loadMembers() {
         ArrayList<Member> memberList = new ArrayList<>();
         try {
@@ -53,5 +69,25 @@ public class FileHandler {
             System.out.println("Failed to read the file...");
         }
         return memberList;
+    }
+
+    public ArrayList<Competition> loadRecords() {
+        ArrayList<Competition> compList = new ArrayList<>();
+        try {
+            Scanner sc = new Scanner(new File("src/main/resources/records.txt"));
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] att = line.split(",");
+                Competition compLoad = new Competition(att[0],
+                        att[1],
+                        att[2],
+                        Integer.parseInt(att[3]),
+                        Integer.parseInt(att[4]));
+                compList.add(compLoad);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Failed to read the file...");
+        }
+        return compList;
     }
 }
