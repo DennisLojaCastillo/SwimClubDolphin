@@ -49,6 +49,8 @@ public class Controller {
         for(Competition competition : getRecords()) {
             if(competition.getDisciplin().equals(group)) {
                 tempMembers.add(competition);
+            } else if(group.equals("all")) {
+                tempMembers.add(competition);
             }
         }
         return tempMembers;

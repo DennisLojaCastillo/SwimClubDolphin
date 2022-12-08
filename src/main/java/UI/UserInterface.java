@@ -16,9 +16,6 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class UserInterface {
-    //TODO Tilføj attributter i competitor and exerciser klasser!
-    //TODO Edit Metode = newDate virker ikke!!!!!
-
     private final Scanner scanner;
     private final Controller controller;
     LocalDate validDate = null;
@@ -643,7 +640,7 @@ public class UserInterface {
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            //viewTop5();
+            viewTop5("all");
             int num = readInteger();
             Competition editMember;
             scanner.nextLine();

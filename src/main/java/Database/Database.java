@@ -8,11 +8,11 @@ public class Database {
     private ArrayList<Member> members = new ArrayList<>();
     private ArrayList<Competition> records = new ArrayList<>();
 
-    private ArrayList<Trainer> trainers = new ArrayList<>();
+    private final ArrayList<Trainer> trainers = new ArrayList<>();
 
     public Database() {
-        trainers.add(new Trainer("Amir", 28394739, "coach_amir@clubdolphin.dk", "Adult"));
-        trainers.add(new Trainer("Dennis", 18293732, "coach_dennis@clubdolphin.dk", "Junior"));
+        trainers.add(new Trainer("Amir", "Adult"));
+        trainers.add(new Trainer("Dennis", "Junior"));
     }
 
     public void addArrayMember(ArrayList<Member> m) {
@@ -41,7 +41,7 @@ public class Database {
     public ArrayList<Member> getMembersComp() {
         ArrayList<Member> compMembers = new ArrayList<>();
         for (Member member : members) {
-            if (member.isActivityType() && member.getMemberType() && (member.membershipType() == "Adult" || member.membershipType() == "Junior")) {
+            if (member.isActivityType() && member.getMemberType() && (member.membershipType().equals("Adult") || member.membershipType().equals("Junior"))) {
                 compMembers.add(member);
             }
         }
