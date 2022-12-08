@@ -468,7 +468,7 @@ public class UserInterface {
 
     public void handlingCoachChoice(int userChoice) {
         switch (userChoice) {
-            case 1 -> listMembersCoach();
+            case 1 -> addRecordCoach();
             // case 2 -> EditCoachMethod
             case 3 -> viewTop5();
             case 9 -> System.out.println("Going back\n");
@@ -479,26 +479,12 @@ public class UserInterface {
         }
     }
 
-    public void listMembersCoach() {
-        ArrayList<Member> memberList = controller.getMembersComp();
+    public void addRecordCoach() {
+        ArrayList<Member> memberList = controller.getMembers();
         if (memberList.size() < 1) {
             printNoMemberFoundMsg();
         } else {
-            AsciiTable at = new AsciiTable();
-            int nr = 1;
-            at.addRule();
-            at.addRow("No.", "ID", "Name", "DOB", "Member Type", "Activity Type", "Membership").setTextAlignment(TextAlignment.CENTER);
-            for (Member member : memberList) {
-                at.addRule();
-                DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), "None").setTextAlignment(TextAlignment.CENTER);
-                nr++;
-            }
-            at.addRule();
-            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(15).add(15).add(15));
-            String rend = at.render();
-            System.out.println(rend + "\n");
-
+            listMembersCoach();
             System.out.println("Select a member you want to add a record: ");
             int num = readInteger();
             Member editMember;
@@ -522,7 +508,29 @@ public class UserInterface {
 
                 controller.addRecord(editMember.getMemberID(), editMember.getName(), eventName, placement, bestTime);
             }
+        }
 
+    }
+
+    public void listMembersCoach() {
+        ArrayList<Member> memberList = controller.getMembersComp();
+        if (memberList.size() < 1) {
+            printNoMemberFoundMsg();
+        } else {
+            AsciiTable at = new AsciiTable();
+            int nr = 1;
+            at.addRule();
+            at.addRow("No.", "ID", "Name", "DOB", "Member Type", "Activity Type", "Membership").setTextAlignment(TextAlignment.CENTER);
+            for (Member member : memberList) {
+                at.addRule();
+                DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                at.addRow(nr, member.getMemberID(), member.getName(), (member.getDateOfBirth().format(formatDate)), (member.getMemberType() ? "Active" : "Passive"), (member.isActivityType() ? "Competitor" : "Motionist"), "None").setTextAlignment(TextAlignment.CENTER);
+                nr++;
+            }
+            at.addRule();
+            at.getRenderer().setCWC(new CWC_FixedWidth().add(5).add(10).add(30).add(15).add(15).add(15).add(15));
+            String rend = at.render();
+            System.out.println(rend + "\n");
         }
     }
 
